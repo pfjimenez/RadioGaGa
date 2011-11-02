@@ -1,3 +1,5 @@
+import de.umass.lastfm.*;
+
 PApplet papplet;
 
 DateFormat dateTimeFormat= new SimpleDateFormat("EEEE, MMMM dd, yyyy HH:mm");
@@ -22,6 +24,7 @@ View mainView;
 Checkbox newcheckbox;
 HRangeSlider newSlider;
 
+Collection<Track> topTracks;
 
 void setup()
 {
@@ -40,11 +43,25 @@ void setup()
   newSlider = new HRangeSlider(15,50,12,12,test,1);
   mainView.subviews.add(newSlider);
   
+  String key = "b25b959554ed76058ac220b7b2e0a026"; //this is the key used in the last.fm API examples online.
+
+  topTracks = Artist.getTopTracks("Depeche Mode", key);
+
+		
+
+		
+
 }
   void draw()
   {
     background(backgroundColor); 
     
+    for (Track track : topTracks) {
+
+			System.out.printf("%s (%d plays)%n", track.getName(), track.getPlaycount());
+
+		}
+
     mainView.draw(); 
   }
 
