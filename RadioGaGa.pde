@@ -20,6 +20,7 @@ int largeFontSize = 15;
 
 View mainView;
 Checkbox newcheckbox;
+HRangeSlider newSlider;
 
 
 void setup()
@@ -34,6 +35,10 @@ void setup()
   
   newcheckbox = new Checkbox(15,15,12,12,"Test",boldTextColor);
   mainView.subviews.add(newcheckbox);
+  
+  String[] test = {"A","B","C"};
+  newSlider = new HRangeSlider(15,50,12,12,test,1);
+  mainView.subviews.add(newSlider);
   
 }
   void draw()
@@ -56,13 +61,9 @@ void mouseDragged()
 
 void mouseClicked()
 {
+  println("Clicked in " +newcheckbox.title + " " + newcheckbox.value );
   mainView.mouseClicked(mouseX, mouseY);
-}
-
-
-void buttonClicked(Checkbox button)
-{
-  println("Clicked");
+  println("Clicked in new  " +newcheckbox.title + " " + newcheckbox.value );
 }
 
 

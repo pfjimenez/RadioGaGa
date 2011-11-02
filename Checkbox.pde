@@ -71,7 +71,7 @@ class Checkbox extends View {
   boolean contentClicked(float lx, float ly)
   {
     value = !value;
-    buttonClicked(this);
+    println(value);
     return true;
   }
   
