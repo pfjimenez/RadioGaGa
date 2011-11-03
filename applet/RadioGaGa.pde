@@ -23,7 +23,6 @@ int largeFontSize = 15;
 View mainView;
 Checkbox newcheckbox;
 HRangeSlider newSlider;
-MenuView menuView;
 
 Collection<Track> topTracks;
 
@@ -37,13 +36,19 @@ void setup()
   
   smooth();
   
-  menuView = new MenuView(50,50,200,200);
-  mainView.subviews.add(menuView);
-
+  newcheckbox = new Checkbox(15,15,12,12,"Test",boldTextColor);
+  mainView.subviews.add(newcheckbox);
+  
+  String[] test = {"A","B","C"};
+  newSlider = new HRangeSlider(15,50,12,12,test,1);
+  mainView.subviews.add(newSlider);
   
   String key = "b25b959554ed76058ac220b7b2e0a026"; //this is the key used in the last.fm API examples online.
 
   topTracks = Artist.getTopTracks("Depeche Mode", key);
+
+		
+
 		
 
 }
@@ -51,10 +56,10 @@ void setup()
   {
     background(backgroundColor); 
     
-  //  for (Track track : topTracks) {
+    for (Track track : topTracks) {
 
-    //    System.out.printf("%s (%d plays)%n", track.getName(), track.getPlaycount());
-   //}
+        System.out.printf("%s (%d plays)%n", track.getName(), track.getPlaycount());
+   }
 
     mainView.draw(); 
   }
