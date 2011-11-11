@@ -59,7 +59,7 @@ public ArrayList<String[]> ages = new ArrayList<String[]>();
 //<0-9 age></t><10-19></t><20-29></t><30-39></t><40-49></t><50-59></t><60+>
 public ArrayList<String[]> locations = new ArrayList<String[]>();
 //<africa></t><asia></t><europe></t><australia></t><caribbean></t><middleEast></t><northAmerica></t><southAmerica>
-
+// Changing lalalala
 public void setup()
 {
   size(1200, 700); 
