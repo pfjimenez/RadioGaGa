@@ -1,3 +1,4 @@
+/*
 public float grav = 1.40;                    // Gravedad
 public float b = 0.85;                       // Rebote
 public float f = 0.90;                       // Friccion
@@ -10,13 +11,13 @@ public color ballColor = 255;
 public int BOX_W = 200;
 public int BOX_H = 150;
 
-public class Ball extends View {
+public class Ball extends View{
 
   public float r;
   public float m;
   
-  public float x;
-  public float y;
+  public float x2;
+  public float y2;
   
   public float vx;
   public float vy;
@@ -30,14 +31,13 @@ public class Ball extends View {
   
   public boolean cursorOnCharacter;
   public PImage p ;  
-  public Ball( float x2, float y2, float w2, float h2, int ID, float KA, String _name, int _value,int _topPos ) {
-     super(x2, y2, w2, h2);
-    
+  public Ball( float x, float y, float h, float w,int ID, float KA, String _name, int _value,int _topPos ) {
+    super(x,y,w,h);
     ka = KA;
     r = sqrt( ka / PI );
     m = r;
-    x = random(r+x2,x2+w2-r);
-    y = random(r+y2,y2+h2-r);
+    x2 = random(r+x,x+w-r);
+    y2 = random(r+y,y+h-r);
     vx = random(-3,3);
     vy = random(-3,3);
     id = ID;
@@ -51,27 +51,27 @@ public class Ball extends View {
  
   public void bounce() {
   
-    if ( y + vy + r > y2 + h2 + 2) {
+    if ( y2 + vy + r > y + h + 2) {
     
-      y = y2+ h2 - r;
+      y2 = y + h - r;
       vx *= f;
       vy *= -b;
     }
-    if ( y + vy - r < y2 + 2) {
+    if ( y2 + vy - r < y + 2) {
     
-      y = r+y2;
+      y2 = r+y;
       vx *= f;
       vy *= -b;
     }
-    if ( x + vx + r > CHARACTER_GRAPH_X+CHARACTER_GRAPH_W - 2 ) {
+    if ( x2 + vx + r > x+w - 2 ) {
     
-      x = CHARACTER_GRAPH_X + CHARACTER_GRAPH_W - r;
+      x2 = x + w - r;
       vx *= -b;
       vy *= f;
     }
-    if ( x + vx - r < CHARACTER_GRAPH_X + 2 ) {
+    if ( x2 + vx - r < x + 2 ) {
     
-      x = r+CHARACTER_GRAPH_X;
+      x2 = r+x;
       vx *= -b;
       vy *= f;
     }
@@ -83,13 +83,13 @@ public class Ball extends View {
     
       if ( i < balls.length ) {
       
-        float X = balls[i].x;
-        float Y = balls[i].y;
+        float X = balls[i].x2;
+        float Y = balls[i].y2;
         float R = balls[i].r;
         float M = balls[i].m;
       
-        float deltax = X-x;
-        float deltay = Y-y;
+        float deltax = X-x2;
+        float deltay = Y-y2;
         float d = sqrt(pow(deltax,2)+pow(deltay,2));
       
         if ( d < r + R && d > 0 ) {
@@ -111,14 +111,14 @@ public class Ball extends View {
   public void move() {
   
     if ( cursorOnCharacter && mousePressed && ( dragging == -1 || dragging == id ) ) {
-      x = mouseX;
-      y = mouseY;
+      x2 = mouseX;
+      y2 = mouseY;
       vx = 0;
       vy = 0;
       dragging = id;
     } else {
-      x += vx;
-      y += vy;
+      x2 += vx;
+      y2 += vy;
     }
     
     
@@ -126,7 +126,7 @@ public class Ball extends View {
   
  public void cursorOn() {
   
-    if ( dist(x, y, mouseX, mouseY) < r ) cursorOnCharacter = true;
+    if ( dist(x2, y2, mouseX, mouseY) < r ) cursorOnCharacter = true;
     else cursorOnCharacter = false;
   
   }
@@ -138,7 +138,7 @@ public class Ball extends View {
         fill(fillBoxColor);
         strokeWeight(2);
         rectMode(CORNER);
-        rect(CHARACTER_GRAPH_X+CHARACTER_GRAPH_W+10,CHARACTER_GRAPH_Y+CHARACTER_GRAPH_H - BOX_H,BOX_W,BOX_H);
+        rect(x+w+10,y+h - BOX_H,BOX_W,BOX_H);
         stroke(hBallColor);
         strokeWeight(r);
         textSize(12); 
@@ -149,14 +149,14 @@ public class Ball extends View {
         textFont(fbold);
        // image(p, CHARACTER_GRAPH_X+CHARACTER_GRAPH_W + 110,CHARACTER_GRAPH_Y+CHARACTER_GRAPH_H - BOX_H - 120);
         
-        text("Name:",  CHARACTER_GRAPH_X+CHARACTER_GRAPH_W+20,CHARACTER_GRAPH_Y+CHARACTER_GRAPH_H - BOX_H + 5,BOX_W,BOX_H);
+        text("Name:",  x+w+20,y+h - BOX_H + 5,BOX_W,BOX_H);
         fill(textColor);
-        text(name,  CHARACTER_GRAPH_X+CHARACTER_GRAPH_W+85,CHARACTER_GRAPH_Y+CHARACTER_GRAPH_H - BOX_H + 5,BOX_W,BOX_H);
+        text(name,  x+w+85,y+h - BOX_H + 5,BOX_W,BOX_H);
         fill(0);
-        text("Number of Appearances:\n ",  CHARACTER_GRAPH_X+CHARACTER_GRAPH_W+20,CHARACTER_GRAPH_Y+CHARACTER_GRAPH_H - BOX_H + 40,BOX_W,BOX_H);
+        text("Number of Appearances:\n ",  x+w+20,y+h - BOX_H + 40,BOX_W,BOX_H);
         fill(textColor);
         textSize(32);
-        text(str(value),  CHARACTER_GRAPH_X+CHARACTER_GRAPH_W+65,CHARACTER_GRAPH_Y+CHARACTER_GRAPH_H - BOX_H + 100,BOX_W,BOX_H);
+        text(str(value),  x+w+65,y+h - BOX_H + 100,BOX_W,BOX_H);
         
         // " + str(value),CHARACTER_GRAPH_X+CHARACTER_GRAPH_W+20,CHARACTER_GRAPH_Y+CHARACTER_GRAPH_H - BOX_H + 5,BOX_W,BOX_H);
         textAlign(CENTER);
@@ -172,7 +172,7 @@ public class Ball extends View {
      strokeWeight(3);
      fill(textColor2);
         
-     ellipse(x,y,2*r-r/10,2*r-r/10);
+     ellipse(x2,y2,2*r-r/10,2*r-r/10);
   }
 }
 
@@ -183,4 +183,4 @@ public Ball[] append(Ball t[], float ka, String _name, int _value,int _topPos) {
   temp[t.length]=new Ball(t.length, ka, _name, _value,_topPos);  
   return temp;  
 }
-
+*/

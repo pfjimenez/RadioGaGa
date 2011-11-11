@@ -42,7 +42,7 @@ class HRangeSlider extends View {
    
       textAlign(LEFT,CENTER);
       textFont(font,normalFontSize);
-      fill(textColor);
+      fill(textColor2);
       text(title, 0, 0);
     
       textFont(font,smallFontSize);

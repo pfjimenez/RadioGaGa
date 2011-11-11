@@ -47,7 +47,7 @@ class Checkbox extends View {
       noFill();
       rect(0, 0, w, h);
     }
-   fill(textColor);
+   fill(textColor2);
    textFont(font,normalFontSize);
    textAlign(LEFT,TOP);
    if (icon != null){
