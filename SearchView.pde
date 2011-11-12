@@ -79,10 +79,11 @@ class SearchView extends View {
   }
   boolean contentClicked(float lx, float ly)
   {
-    return false;
+//System.out.println(lx +" "+ly);
+    return true;
   }
   boolean contentPressed(float lx, float ly) {
-    return false;
+    return true;
   }
   boolean keypressed() {
 
@@ -139,5 +140,32 @@ class SearchView extends View {
       return false;
     }
   }
+  boolean mousePressed(float lx, float ly){
+  System.out.println(lx +" "+ly );
+  if(lx >= 1156 && lx <= 1184 && ly >= 580 && ly <= 605){
+   /*
+   startResult = 0;
+  public int endResult = 16;
+  */ 
+    if(endResult+1 < searchResults.size()){
+    startResult = endResult+1;
+    endResult = endResult+17;
+    if(endResult >= searchResults.size())
+    endResult = searchResults.size()-1;
+    }
+    
+    
+  }
+  if(lx >= 925 && lx <= 960 && ly >= 580 && ly <= 610){
+  if(startResult - 1 >=0){
+  endResult = startResult - 1;
+  startResult = startResult -  17;
+  if(startResult<0)
+  startResult = 0;
+  }
+  
+  }
+  return true;  
+}
 }
 

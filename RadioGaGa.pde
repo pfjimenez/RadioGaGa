@@ -63,9 +63,9 @@ public ArrayList<String[]> locations = new ArrayList<String[]>();
 //<africa></t><asia></t><europe></t><australia></t><caribbean></t><middleEast></t><northAmerica></t><southAmerica>
 
 // Changing lalalala
-public boolean maleChecked = false;
-public boolean femaleChecked = false;
-public boolean gendersChecked = false;
+public boolean maleChecked;
+public boolean femaleChecked;
+public boolean gendersChecked;
 public boolean regionChecked = false;
 public boolean genderExpand = true;
 public boolean regionExpand = true;
@@ -102,7 +102,7 @@ public void setup()
   prevArrow.resize(0,40);
   
   menuView = new MenuView(50,635,800,20);
-  
+  gendersChecked = menuView.byGender.value;
 /*
    for (Track track : topTracks) {
    i++;
@@ -162,6 +162,10 @@ void mouseClicked()
   // println("Clicked in " +newcheckbox.title + " " + newcheckbox.value );
   mainView.mouseClicked(mouseX, mouseY);
   // println("Clicked in new  " +newcheckbox.title + " " + newcheckbox.value );
+  gendersChecked = menuView.byGender.value;
+  maleChecked = menuView.showMales.value;
+  femaleChecked = menuView.showFemales.value;
+
 }
 void keyPressed(){
   //System.out.println("Here!");

@@ -17,9 +17,11 @@ class MenuView extends View {
   Integrator leftMenu = new Integrator(20);
   Integrator leftCheckBoxes = new Integrator(150);
   Integrator leftText = new Integrator(130);
- Checkbox byGender = new Checkbox((float)100,(float)-5,25,25,checkboxChecked, checkboxUnchecked,"By Gender",gendersChecked);
+ Checkbox byGender = new Checkbox((float)100,(float)-5,25,25,checkboxChecked, checkboxUnchecked,"By Gender",true);
  Checkbox byRegion = new Checkbox((float)320,(float)-5,25,25,checkboxChecked, checkboxUnchecked,"By Region",regionChecked);
-  
+ Checkbox showMales = new Checkbox((float)90,(float)-100,25,25,checkboxChecked, checkboxUnchecked,"Males",true);
+ Checkbox showFemales = new Checkbox((float)90,(float)-60,25,25,checkboxChecked, checkboxUnchecked,"Females",true);
+
   /*
    roundrect(80,-20,190,5,10);
  rectMode(CORNERS);
@@ -51,8 +53,7 @@ else
      
      this.subviews.add(byGender);    
      this.subviews.add(byRegion);    
-    
-     uparrow.resize(0,15);
+      uparrow.resize(0,15);
      downarrow.resize(0,15);
   //newcheckbox = new Checkbox(15,15,12,12,"Test",boldTextColor);
  // this.subviews.add(newcheckbox);
@@ -87,6 +88,7 @@ rectMode(CORNERS);
   
   void drawContent()
   {
+  //  System.out.println("Gender Checked = "+ gendersChecked);
   //  rect(0,0,w,h);
   fill(menuColor1);
  
@@ -118,6 +120,11 @@ rectMode(CORNERS);
  fill(tabColor2);
  roundrect(80,-16,190,5,10);
  image(uparrow, 165,-23);
+ if(this.subviews.contains(showMales))
+  this.subviews.remove(showMales);
+  if(this.subviews.contains(showFemales))
+      this.subviews.remove(showFemales);
+  
  }else{
    
  /*
@@ -127,14 +134,19 @@ rectMode(CORNERS);
   Integrator leftText = new Integrator(130);
   
  */
+
  fill(tabColor2);
  roundrect(80,-16,190,5,10);
  rectMode(CORNERS);
  fill(0,150);
- rect(80,-338,270,-21);
+ rect(80,-128,270,-21);
  fill(tabColor2);
- roundrect(80,-336,190,5,10);
- image(downarrow, 163,-342);
+ roundrect(80,-126,190,5,10);
+ image(downarrow, 163,-130);
+   this.subviews.add(showMales);
+      this.subviews.add(showFemales);
+  
+/*
  if(maleChecked)
  image(checkboxChecked,90,-250); 
  else
@@ -150,7 +162,7 @@ else
  image(checkboxUnchecked,90,-150); 
 
  text("Women", 165, -130);
-
+*/
  }
  
  if(!regionExpand){
@@ -176,13 +188,7 @@ else
   
   boolean contentClicked(float lx, float ly)
   {
-      System.out.println("CLICKING");
-    
-    if(gendersChecked){
-    maleChecked = true;
-   femaleChecked = true; 
-    }
-    return true;
+    return false;
   }
 
   

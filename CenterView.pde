@@ -34,7 +34,7 @@ boolean contentPressed(float lx, float ly){
 }
 boolean mouseReleased(int posX, int posY){
 
-  /*if(posX >= x && posX <= x+w && posY >= y && posY <= y+h){
+  if(posX >= x && posX <= x+w && posY >= y && posY <= y+h){
 if(searchView.draggedIndex != -1){
 
 currentlyViewing = searchView.dragged;
@@ -47,7 +47,7 @@ return true;
 }
 searchView.draggedIndex = -1;
 searchView.dragged = "";
-*/
+
 return false;
 }
 }

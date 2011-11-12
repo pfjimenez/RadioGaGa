@@ -44,13 +44,13 @@ class Checkbox extends View {
   
   void drawContent()
   {
-    strokeWeight(1);
+   // strokeWeight(1);
  if(checked != null && unchecked != null){
        //System.out.println("Drawing Checkbox");
-       textFont(fbold);
+    //   textFont(fbold);
        fill(255);
      text(title, w+70, 20);
-     textFont(f2);
+    // textFont(f2);
      if(value){
        //checked.resize(0,sized);
        image(checked,0,0,w,h);
@@ -62,7 +62,9 @@ class Checkbox extends View {
         
         
      }else{
-    if (value){
+  strokeWeight(1);
+ 
+       if (value){
       stroke((ckbColor== -1)?checkboxColor:ckbColor);
       noFill();
       rect(0, 0, w, h);
