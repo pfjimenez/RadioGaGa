@@ -124,29 +124,9 @@ public void draw()
 {
   background(backgroundColor, 200); 
   mainView.draw();
-  if(!mainView.subviews.contains(searchView))
-  searchView.myTextfield.hide();
-  if(searchView.draggedIndex != -1){
- //   System.out.println("Drawing Dragged");
-  fill(tabColor2, 100);
-  strokeWeight(1);
-  rect(mouseX-10, mouseY-10, mouseX+203, mouseY+15);
-  fill(255);
-  textSize(12);
-  textAlign(CENTER);
-  String t = searchView.dragged;
-  textFont(fbold);
-  if (t.length()>25)
-    t = t.substring(0, 26);
-  text(t, mouseX+100, mouseY+10);
-  textFont(f2);
-  textSize(20);
   
-  }
-
- 
+  drawDraggableBox();
 }
-
 
 void mousePressed()
 {
@@ -174,3 +154,27 @@ mainView.keypressed();
 void mouseReleased(){
 mainView.mouseReleased(mouseX, mouseY);
 }
+
+
+void drawDraggableBox(){
+  if(!mainView.subviews.contains(searchView))
+  searchView.myTextfield.hide();
+  if(searchView.draggedIndex != -1){
+ //   System.out.println("Drawing Dragged");
+  fill(tabColor2, 100);
+  strokeWeight(1);
+  rect(mouseX-10, mouseY-10, mouseX+203, mouseY+15);
+  fill(255);
+  textSize(12);
+  textAlign(CENTER);
+  String t = searchView.dragged;
+  textFont(fbold);
+  if (t.length()>25)
+    t = t.substring(0, 26);
+  text(t, mouseX+100, mouseY+10);
+  textFont(f2);
+  textSize(20);
+}
+
+}
+
