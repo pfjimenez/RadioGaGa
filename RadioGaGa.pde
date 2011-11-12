@@ -16,7 +16,7 @@ public DateFormat dateFormat= new SimpleDateFormat("EEEE, MMMM dd, yyyy");
 public DateFormat shortDateFormat= new SimpleDateFormat("MM/dd/yyyy HH:mm");
 public DateFormat dbDateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 */
-
+ 
 public PFont font;
 public color backgroundColor = 255;
 public color textColor2 = 255;
@@ -67,7 +67,7 @@ public boolean maleChecked = false;
 public boolean femaleChecked = false;
 public boolean gendersChecked = false;
 public boolean regionChecked = false;
-public boolean genderExpand = true;
+public boolean genderExpand = false;
 public boolean regionExpand = true;
 
 public void setup()
@@ -101,7 +101,7 @@ public void setup()
   prevArrow = loadImage("Previous.png"); 
   prevArrow.resize(0,40);
   
-  menuView = new MenuView(200,650,600,20);
+  menuView = new MenuView(50,635,800,20);
   
 /*
    for (Track track : topTracks) {

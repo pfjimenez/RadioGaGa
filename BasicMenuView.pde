@@ -1,6 +1,6 @@
 
 
-class MenuView extends View {
+class BasicMenuView extends View {
 
   public PImage checkboxChecked = loadImage("checkbox_checked.png");
  
@@ -12,12 +12,12 @@ class MenuView extends View {
   public PImage uparrow = loadImage("br_up.png");
   public PImage downarrow = loadImage("br_down.png");
   
- 
+ /*
  Integrator leftMenuHead = new Integrator(20);
   Integrator leftMenu = new Integrator(20);
   Integrator leftCheckBoxes = new Integrator(150);
   Integrator leftText = new Integrator(130);
-  
+*/  
   /*
    roundrect(80,-20,190,5,10);
  rectMode(CORNERS);
@@ -43,14 +43,18 @@ else
  text("Women", 165, -130);
 
   */
-  MenuView(float x_, float y_, float w_, float h_)
+  BasicMenuView(float x_, float y_, float w_, float h_)
   {
     super(x_, y_, w_, h_);
      
- Checkbox byGender = new Checkbox((float)100,(float)-5,25,25,checkboxChecked, checkboxUnchecked,"By Gender",true);
-     this.subviews.add(byGender);    
+     /*checkboxChecked.resize(0,25);
+     checkboxUnchecked.resize(0,25);
+     checkboxChecked2.resize(0,25);
+     checkboxUnchecked2.resize(0,25);
+    
      uparrow.resize(0,15);
      downarrow.resize(0,15);
+     */
   //newcheckbox = new Checkbox(15,15,12,12,"Test",boldTextColor);
  // this.subviews.add(newcheckbox);
   //newSlider = new HRangeSlider(15,50,12,12,test,1);
@@ -85,35 +89,33 @@ rectMode(CORNERS);
   void drawContent()
   {
   //  rect(0,0,w,h);
-  fill(menuColor1);
+  fill(tabColor2);
  
- roundrect(0,0,800,15,15);
+ roundrect(0,0,600,20,20);
  fill(textColor2);
  textFont(fbold);
- textSize(18);
- text("Filter:",50,12);
+ text("Filter:",50,15);
  
  /*
  if(gendersChecked)
- image(checkboxChecked,100,-5);
+ image(checkboxChecked,100,-3);
  else
- image(checkboxUnchecked,100,-5);
- */
- // float x_, float y_, int sized,PImage checked, PImage unchecked, String text_,boolean value
- //text(" By Gender",180,15);
+ image(checkboxUnchecked,100,-3);
+ 
+ text(" By Gender",180,17);
  
  if(regionChecked)
- image(checkboxChecked,320,-5);
+ image(checkboxChecked,350,-3);
  else
- image(checkboxUnchecked,320,-5);
+ image(checkboxUnchecked,350,-3);
  
- text(" By Region",400,15);
+ text(" By Region",430,17);
  textFont(f2);
 
  if(!genderExpand){
  fill(tabColor2);
- roundrect(80,-16,190,5,10);
- image(uparrow, 165,-23);
+ roundrect(80,-20,190,5,10);
+ image(uparrow, 165,-25);
  }else{
    
  /*
@@ -123,14 +125,15 @@ rectMode(CORNERS);
   Integrator leftText = new Integrator(130);
   
  */
+ /*
  fill(tabColor2);
- roundrect(80,-16,190,5,10);
+ roundrect(80,-20,190,5,10);
  rectMode(CORNERS);
  fill(0,150);
- rect(80,-338,270,-21);
+ rect(80,-340,270,-25);
  fill(tabColor2);
- roundrect(80,-336,190,5,10);
- image(downarrow, 163,-342);
+ roundrect(80,-340,190,5,10);
+ image(uparrow, 165,-345);
  if(maleChecked)
  image(checkboxChecked,90,-250); 
  else
@@ -151,42 +154,26 @@ else
  
  if(!regionExpand){
  fill(tabColor2);
- roundrect(310,-20,190,5,10);
- image(uparrow, 400,-25);
+ roundrect(330,-20,190,5,10);
+ image(uparrow, 420,-25);
  }
- else{
- fill(tabColor2);
- roundrect(310,-16,190,5,10);
- rectMode(CORNERS);
- fill(0,150);
- rect(310,-338,500,-21);
- fill(tabColor2);
- 
- roundrect(310,-336,190,5,10);
- image(downarrow, 400,-342);
- 
- 
- }
- textFont(f2);
+ */
   }
   
   boolean contentClicked(float lx, float ly)
   {
     
    // System.out.println("Content Clicked Filter: "+lx + " , "+ly);
-    
+   /* 
     if(lx >= 102 && lx <= 122 && ly >= 0 && ly <= 20 ){
       
      // System.out.println(gendersChecked);
       gendersChecked = !gendersChecked;
     //  System.out.println(gendersChecked);
-    if(gendersChecked){
+    if(gendersChecked)
     regionChecked = false;
-  maleChecked = true;
-femaleChecked = true;  
-  }
     }
-    if(lx >= 325 && lx <= 345 && ly >= 0 && ly <= 20 ){
+    if(lx >= 355 && lx <= 375 && ly >= 0 && ly <= 20 ){
       
      // System.out.println(gendersChecked);
       regionChecked = !regionChecked;
@@ -194,7 +181,9 @@ femaleChecked = true;
     if(regionChecked)
     gendersChecked = false;
     }
-    return true;
+   
+    */
+     return true;
   }
 
   
