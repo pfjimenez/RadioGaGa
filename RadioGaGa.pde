@@ -1,7 +1,5 @@
-// Priscilla new line
-
 import controlP5.*;
-// RadioGaga I hate you!!!!!!!!!!
+
 // ############################################################################################################################################################################################
 // Project 4: Radio Gaga
 // By Priscilla Jimenez, Hung Park and Heba Basiony
@@ -27,6 +25,7 @@ public color tabColor2 = #9370db;
 public color tabColor1 = #EED2EE;
 public color boldTextColor = #FFFF00;
 public color titleTextColor = #BA55D3;
+public color menuColor1 = #483D8B;
 public color draggableContentBoxColor= #CCCCFF;
 public PFont f2, fbold;
 public PImage nextArrow, prevArrow;
@@ -41,6 +40,7 @@ public ControlP5 controlP5;
 public View mainView;
 public TabView viewTabs;
 public CenterView graphView;
+public MenuView menuView;
 
 public Collection<Track> topTracks;
 
@@ -61,7 +61,15 @@ public ArrayList<String[]> ages = new ArrayList<String[]>();
 //<0-9 age></t><10-19></t><20-29></t><30-39></t><40-49></t><50-59></t><60+>
 public ArrayList<String[]> locations = new ArrayList<String[]>();
 //<africa></t><asia></t><europe></t><australia></t><caribbean></t><middleEast></t><northAmerica></t><southAmerica>
+
 // Changing lalalala
+public boolean maleChecked = false;
+public boolean femaleChecked = false;
+public boolean gendersChecked = false;
+public boolean regionChecked = false;
+public boolean genderExpand = true;
+public boolean regionExpand = true;
+
 public void setup()
 {
   size(1200, 700); 
@@ -83,7 +91,7 @@ public void setup()
   mainView.subviews.add(viewTabs);
  controlP5 = new ControlP5(this);
  
-  graphView  = new CenterView(10, 30, 900, 550);
+  graphView  = new CenterView(10, 30, 900, 580);
   searchView = new SearchView(920,20,175,600);
   bubbleView = new BubbleView(100, 30, 900, 600);
     mainView.subviews.add(bubbleView);
@@ -92,6 +100,9 @@ public void setup()
   nextArrow.resize(0,40);
   prevArrow = loadImage("Previous.png"); 
   prevArrow.resize(0,40);
+  
+  menuView = new MenuView(200,650,600,20);
+  
 /*
    for (Track track : topTracks) {
    i++;
@@ -128,11 +139,15 @@ public void draw()
   mainView.draw();
   
   drawDraggableBox();
+  
+  
+ 
 }
+
 
 void mousePressed()
 {
-  System.out.println(mouseX + " , "+ mouseY);
+//System.out.println(mouseX + " , "+ mouseY);
   mainView.mousePressed(mouseX, mouseY);
   //  tabView.mousepressed(mouseX,mouseY);
 }
@@ -156,9 +171,8 @@ mainView.keypressed();
 void mouseReleased(){
 mainView.mouseReleased(mouseX, mouseY);
 }
-
-
 void drawDraggableBox(){
+
   if(!mainView.subviews.contains(searchView))
   searchView.myTextfield.hide();
   if(searchView.draggedIndex != -1){
@@ -176,7 +190,5 @@ void drawDraggableBox(){
   text(t, mouseX+100, mouseY+10);
   textFont(f2);
   textSize(20);
+  }
 }
-
-}
-

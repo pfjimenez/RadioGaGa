@@ -37,7 +37,7 @@ if(posX >= x && posX <= x+w && posY >= y && posY <= y+h){
 if(searchView.draggedIndex != -1){
 
 currentlyViewing = searchView.dragged;
-System.out.println("Currently Viewing "+ currentlyViewing);
+//System.out.println("Currently Viewing "+ currentlyViewing);
 currentIndex = searchView.draggedIndex;
 searchView.draggedIndex = -1;
 searchView.dragged = "";

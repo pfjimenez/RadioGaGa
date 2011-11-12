@@ -37,7 +37,7 @@ class View {
     // lx, ly are in the local coordinate system of the view,
     // i.e. 0,0 is the top left corner of this view
     // return false if the click is to "pass through" this view
-    System.out.println("Here");
+   // System.out.println("Here");
     return true;
   }
 
