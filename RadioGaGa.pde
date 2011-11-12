@@ -67,7 +67,7 @@ public boolean maleChecked = false;
 public boolean femaleChecked = false;
 public boolean gendersChecked = false;
 public boolean regionChecked = false;
-public boolean genderExpand = false;
+public boolean genderExpand = true;
 public boolean regionExpand = true;
 
 public void setup()
@@ -191,4 +191,5 @@ void drawDraggableBox(){
   textFont(f2);
   textSize(20);
   }
+
 }

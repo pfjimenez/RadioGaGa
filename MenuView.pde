@@ -17,6 +17,8 @@ class MenuView extends View {
   Integrator leftMenu = new Integrator(20);
   Integrator leftCheckBoxes = new Integrator(150);
   Integrator leftText = new Integrator(130);
+ Checkbox byGender = new Checkbox((float)100,(float)-5,25,25,checkboxChecked, checkboxUnchecked,"By Gender",gendersChecked);
+ Checkbox byRegion = new Checkbox((float)320,(float)-5,25,25,checkboxChecked, checkboxUnchecked,"By Region",regionChecked);
   
   /*
    roundrect(80,-20,190,5,10);
@@ -47,8 +49,9 @@ else
   {
     super(x_, y_, w_, h_);
      
- Checkbox byGender = new Checkbox((float)100,(float)-5,25,25,checkboxChecked, checkboxUnchecked,"By Gender",true);
      this.subviews.add(byGender);    
+     this.subviews.add(byRegion);    
+    
      uparrow.resize(0,15);
      downarrow.resize(0,15);
   //newcheckbox = new Checkbox(15,15,12,12,"Test",boldTextColor);
@@ -102,12 +105,13 @@ rectMode(CORNERS);
  // float x_, float y_, int sized,PImage checked, PImage unchecked, String text_,boolean value
  //text(" By Gender",180,15);
  
- if(regionChecked)
+ /*if(regionChecked)
  image(checkboxChecked,320,-5);
  else
  image(checkboxUnchecked,320,-5);
  
  text(" By Region",400,15);
+ */
  textFont(f2);
 
  if(!genderExpand){
@@ -172,27 +176,11 @@ else
   
   boolean contentClicked(float lx, float ly)
   {
+      System.out.println("CLICKING");
     
-   // System.out.println("Content Clicked Filter: "+lx + " , "+ly);
-    
-    if(lx >= 102 && lx <= 122 && ly >= 0 && ly <= 20 ){
-      
-     // System.out.println(gendersChecked);
-      gendersChecked = !gendersChecked;
-    //  System.out.println(gendersChecked);
     if(gendersChecked){
-    regionChecked = false;
-  maleChecked = true;
-femaleChecked = true;  
-  }
-    }
-    if(lx >= 325 && lx <= 345 && ly >= 0 && ly <= 20 ){
-      
-     // System.out.println(gendersChecked);
-      regionChecked = !regionChecked;
-    //  System.out.println(gendersChecked);
-    if(regionChecked)
-    gendersChecked = false;
+    maleChecked = true;
+   femaleChecked = true; 
     }
     return true;
   }
