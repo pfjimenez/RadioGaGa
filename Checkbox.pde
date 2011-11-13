@@ -44,6 +44,7 @@ class Checkbox extends View {
   
   void drawContent()
   {
+  //  System.out.println(y);
    // strokeWeight(1);
  if(checked != null && unchecked != null){
        //System.out.println("Drawing Checkbox");

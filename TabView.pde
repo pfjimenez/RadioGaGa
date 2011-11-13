@@ -19,7 +19,7 @@ class TabView extends View {
     //    rect(0,0,w,h);
     rectMode(CORNERS);
     noStroke();
-    textSize(20);
+    textSize(largeFontSize);
     textAlign(LEFT);
     
     if (tabLeft == null) {
@@ -85,13 +85,17 @@ boolean contentPressed(float lx, float ly){
   case 1:  if(mainView.subviews.contains(graphView)) mainView.subviews.remove(graphView);searchView.myTextfield.hide();if(mainView.subviews.contains(searchView)) mainView.subviews.remove(searchView);searchView.dragged= "";
   searchView.draggedIndex = -1; graphView.currentIndex = -1; graphView.currentlyViewing = ""; mainView.subviews.add(bubbleView); if(mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
 break;
-  case 2: mainView.subviews.add(searchView);mainView.subviews.add(graphView); mainView.subviews.add(menuView);searchView.myTextfield.show(); 
+  case 2:  searchView.myTextfield.show(); mainView.subviews.add(searchView);mainView.subviews.add(graphView); 
+  
   searchView.searchResults = new ArrayList<String>();
   for (int i = 0; i< bandNames.size();i++) {
     searchView.searchResults.add(""+i);
     }
     if(mainView.subviews.contains(bubbleView)) mainView.subviews.remove(bubbleView);
-   
+   genderScroll.subviews.add(showMales);
+   genderScroll.subviews.add(showFemales);
+   mainView.subviews.add(genderScroll);
+   mainView.subviews.add(menuView);
   break;
   case 3:  if(mainView.subviews.contains(graphView)) mainView.subviews.remove(graphView);searchView.myTextfield.hide();if(mainView.subviews.contains(searchView)) mainView.subviews.remove(searchView);
   searchView.dragged= ""; searchView.draggedIndex = -1; graphView.currentIndex = -1; graphView.currentlyViewing = "";

@@ -2,16 +2,7 @@
 
 class BasicMenuView extends View {
 
-  public PImage checkboxChecked = loadImage("checkbox_checked.png");
  
-  public PImage checkboxUnchecked = loadImage("checkbox_unchecked.png");
-  public PImage checkboxChecked2 = loadImage("checkbox_checked.png");
- 
-  public PImage checkboxUnchecked2 = loadImage("checkbox_unchecked.png");
-  
-  public PImage uparrow = loadImage("br_up.png");
-  public PImage downarrow = loadImage("br_down.png");
-  
  /*
  Integrator leftMenuHead = new Integrator(20);
   Integrator leftMenu = new Integrator(20);

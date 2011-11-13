@@ -13,7 +13,7 @@ class SearchView extends View {
   public ArrayList<String> searchResults;
   public  String dragged = "";
   public int draggedIndex = -1;
-
+  
   SearchView(float x_, float y_, float w_, float h_)
   {
     super(x_, y_, w_, h_);
