@@ -12,20 +12,23 @@ class ScrollMenu extends View {
   void draw()
   {
     pushMatrix();
-    translate(x, y);
+    translate(this.x, this.y);
     // draw out content, then our subviews on top
     //    drawContent();
     fill(0, 150);
     rect(0, head.value, w, openedHeight);
    if(expanded){
-    for (int i = 0; i < subviews.size(); i++) {
+     if(subviews.size()>0){
+    int divid = (openedHeight-50)/(subviews.size());
+     for (int i = 0; i < subviews.size(); i++) {
       View v = (View)subviews.get(i);
-      v.y = ((30*(i+1)))+head.value;
+      
+      v.y = ((divid*(i+1)))+head.value;
  //    System.out.println(v.y); 
       v.draw();
     }
   //roundrect(0, openedHeight, (int)w, smallHeight, 10);
-     
+     }
  }else{
     for (int i = 0; i < subviews.size(); i++) {
       View v = (View)subviews.get(i);
@@ -113,15 +116,16 @@ class ScrollMenu extends View {
     } 
     //head.update();
   } 
-  boolean mousePressed(float lx, float ly) {
+  boolean contentPressed(float lx, float ly) {
+  //  System.out.println("Hey in here "+x+"  BUT "+ lx);
     if (expanded) {
-      if (lx >= x && lx <= x+w && ly >= y-5 && ly <= y+smallHeight) { 
+      if (lx >= 0  && lx <= w && ly >= -5 && ly <= smallHeight) { 
         expanded = !expanded;
         head.target(openedHeight);
       }
     }
     else {
-      if (lx >= x && lx <= x+w && ly >= y+openedHeight-5 && ly <= y+openedHeight+smallHeight) { 
+      if (lx >= 0 && lx <= w && ly >= openedHeight-5 && ly <= openedHeight+smallHeight) { 
         expanded = !expanded;
         head.target(0);
       }

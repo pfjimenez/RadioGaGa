@@ -111,8 +111,8 @@ class MenuView extends View {
      roundrect(80,-126,190,5,10);
      image(downarrow, 163,-130);
      */
-    this.subviews.add(showMales);
-    this.subviews.add(showFemales);
+  //  this.subviews.add(showMales);
+   // this.subviews.add(showFemales);
 
     /*
  if(maleChecked)

@@ -56,17 +56,42 @@ public ArrayList<String[]> locations = new ArrayList<String[]>();
 //<africa></t><asia></t><europe></t><australia></t><caribbean></t><middleEast></t><northAmerica></t><southAmerica>
 
 // Changing lalalala
-public boolean maleChecked;
-public boolean femaleChecked;
-public boolean gendersChecked;
+public boolean maleChecked = true;
+public boolean femaleChecked = true;
+public boolean gendersChecked = true;
 public boolean regionChecked = false;
 public boolean genderExpand = true;
 public boolean regionExpand = true;
+public boolean africaChecked = true;
+public boolean asiaChecked = true;
+public boolean europeChecked = true;
+public boolean australiaChecked = true;
+public boolean southAmericaChecked = true;
+public boolean northAmericaChecked = true;
+public boolean carribeanChecked = true;
+public boolean middleEastChecked = true;
 public ScrollMenu genderScroll;  
-Checkbox showMales;
-Checkbox showFemales;
-public PImage checkboxChecked ;
+public Checkbox showMales;
+public Checkbox showFemales;
+public Checkbox nineyrs;
+public Checkbox nineteenyrs;
+public Checkbox twentynineyrs;
+public Checkbox thirtynineyrs;
+public Checkbox fortynineyrs;
+public Checkbox fiftynineyrs;
+public Checkbox sixtymoreyrs;
 
+public Checkbox showAfrica;
+public Checkbox showAsia;
+public Checkbox showEurope;
+public Checkbox showAustralia;
+public Checkbox showNorthAmerica;
+public Checkbox showSouthAmerica;
+public Checkbox showCarribean;
+public Checkbox showMiddleEast;
+
+public PImage checkboxChecked ;
+public ScrollMenu regionScroll;
 public PImage checkboxUnchecked;
 // public PImage checkboxChecked2 = loadImage("checkbox_checked.png");
 
@@ -85,7 +110,8 @@ public void setup()
   textFont(f2);
   papplet = this;
   mainView = new View(0, 0, width, height);
-  genderScroll = new ScrollMenu(150, 499, 190, 5, true, 120);
+  genderScroll = new ScrollMenu(150, 499, 190, 5, genderExpand, 120);
+  regionScroll = new ScrollMenu(370,260,190,5,regionExpand,360);
   //  int i  = 0;
   // String key = "b25b959554ed76058ac220b7b2e0a026"; //this is the key used in the last.fm API examples online.
 
@@ -94,7 +120,7 @@ public void setup()
 
   smooth();
 
-  viewTabs = new TabView(10, 10, 200, 200);
+  viewTabs = new TabView(10, 10, 500, 500);
   mainView.subviews.add(viewTabs);
   controlP5 = new ControlP5(this);
 
@@ -110,14 +136,13 @@ public void setup()
 
   menuView = new MenuView(50, 635, 800, 20);
   gendersChecked = menuView.byGender.value;
+  regionChecked = menuView.byRegion.value;
   /*
    for (Track track : topTracks) {
    i++;
    System.out.printf("%s (%d plays)%n", track.getName(), track.getPlaycount());
    }
    */
-  //System.out.println(i);
-
   /*
    artist band name> <tab> <number of view by users> <tab> <number of male listening> <number of female listening> <tab> <ages of users listening> <tan> <region of where it was listened>
    */
@@ -138,7 +163,26 @@ public void setup()
   }
   showMales = new Checkbox((float)10, (float)20, 25, 25, checkboxChecked, checkboxUnchecked, "Males", true);
   showFemales = new Checkbox((float)10, (float)60, 25, 25, checkboxChecked, checkboxUnchecked, "Females", true);
-//genderic.update();
+  showAfrica  = new Checkbox((float)10, (float)20, 25, 25, checkboxChecked, checkboxUnchecked, "Africa", true);
+  showAsia = new Checkbox((float)10, (float)40, 25, 25, checkboxChecked, checkboxUnchecked, "Asia", true);
+  showEurope = new Checkbox((float)10, (float)60, 25, 25, checkboxChecked, checkboxUnchecked, "Europe", true);
+  showNorthAmerica = new Checkbox((float)10, (float)80, 25, 25, checkboxChecked, checkboxUnchecked, "North America", true);
+  showSouthAmerica = new Checkbox((float)10, (float)100, 25, 25, checkboxChecked, checkboxUnchecked, "South America", true);
+  showAustralia = new Checkbox((float)10, (float)120, 25, 25, checkboxChecked, checkboxUnchecked, "Australia", true);
+  showCarribean = new Checkbox((float)10, (float)140, 25, 25, checkboxChecked, checkboxUnchecked, "Carribean", true);
+ showMiddleEast= new Checkbox((float)10, (float)160, 25, 25, checkboxChecked, checkboxUnchecked, "Middle East", true);
+  
+   if (!genderScroll.subviews.contains(showMales)) genderScroll.subviews.add(showMales);
+        if (!genderScroll.subviews.contains(showFemales)) genderScroll.subviews.add(showFemales);
+        if (!regionScroll.subviews.contains(showAfrica))regionScroll.subviews.add(showAfrica);
+        if (!regionScroll.subviews.contains(showAsia))regionScroll.subviews.add(showAsia);
+        if (!regionScroll.subviews.contains(showEurope))regionScroll.subviews.add(showEurope);
+        if (!regionScroll.subviews.contains(showNorthAmerica))regionScroll.subviews.add(showNorthAmerica);
+        if (!regionScroll.subviews.contains(showSouthAmerica))regionScroll.subviews.add(showSouthAmerica);
+        if (!regionScroll.subviews.contains(showAustralia))regionScroll.subviews.add(showAustralia);
+        if (!regionScroll.subviews.contains(showCarribean))regionScroll.subviews.add(showCarribean);
+        if (!regionScroll.subviews.contains(showMiddleEast))regionScroll.subviews.add(showMiddleEast);
+       
 }
 public void draw()
 {
@@ -169,7 +213,21 @@ void mouseClicked()
   gendersChecked = menuView.byGender.value;
   maleChecked = showMales.value;
   femaleChecked = showFemales.value;
-}
+  genderExpand = genderScroll.expanded;
+ // System.out.println("Gender Expand "+ genderExpand);
+  regionExpand = regionScroll.expanded;
+ // System.out.println("Region Expand "+regionExpand);
+  regionChecked = menuView.byRegion.value;
+// System.out.println("Region Checked "+ regionChecked);
+   africaChecked = showAfrica.value;
+   asiaChecked  = showAsia.value;
+   europeChecked = showEurope.value;
+   australiaChecked = showAustralia.value;
+   middleEastChecked = showMiddleEast.value;
+   northAmericaChecked = showNorthAmerica.value;
+   southAmericaChecked = showSouthAmerica.value;
+   carribeanChecked = showCarribean.value;
+} 
 void keyPressed() {
   //System.out.println("Here!");
   //System.out.println(mainView.keypressed());

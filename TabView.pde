@@ -6,7 +6,7 @@ class TabView extends View {
   public float[] tabLeft, tabRight;
   public float tabTop, tabBottom;
   public float tabPad = 20;
-//public ArrayList<Track> searchResults;
+  //public ArrayList<Track> searchResults;
   TabView(float x_, float y_, float w_, float h_)
   {
     super(x_, y_, w_, h_);
@@ -21,7 +21,7 @@ class TabView extends View {
     noStroke();
     textSize(largeFontSize);
     textAlign(LEFT);
-    
+
     if (tabLeft == null) {
       tabLeft = new float[6];
       tabRight = new float[6];
@@ -59,58 +59,89 @@ class TabView extends View {
 
       runningX = tabRight[i-1];
     }
-  //  rectMode(CORNER);
+    //  rectMode(CORNER);
   }
-  boolean mousePressed(float px, float py) {
- 
-    if(py >= tabTop && py <= tabBottom){
+  /*boolean mousePressed(float px, float py) {
+   
+   if(py >= tabTop && py <= tabBottom){
    contentPressed(px,py);
    }
-    return (py >= tabTop && py <= tabBottom);
-    
-  }
+   return (py >= tabTop && py <= tabBottom);
+   
+   }*/
   boolean contentClicked(float lx, float ly)
   {
-  return true;
-  }
-boolean contentPressed(float lx, float ly){
-    if (mouseY >= tabTop && mouseY <= tabBottom) {
+//    System.out.println(ly + " BUT "+tabTop + " AND " +tabBottom);  
+    if (ly >= tabTop && ly <= tabBottom) {
+
       // Changing the view if a tab is clicked  
       for (int i = 0; i< 4; i++) {
-        if (mouseX >= tabLeft[i] && mouseX <= tabRight[i]) {
+
+    //   System.out.println(lx + " BUT "+ tabLeft[i]+ " AND "+ tabRight[i]);
+        if (lx >= tabLeft[i] && lx <= tabRight[i]) {
           view = i + 1;
+        }
       }
+      switch(view) {
+      case 1:  
+        if (mainView.subviews.contains(graphView)) mainView.subviews.remove(graphView);
+        searchView.myTextfield.hide();
+        if (mainView.subviews.contains(searchView)) mainView.subviews.remove(searchView);
+        searchView.dragged= "";
+        searchView.draggedIndex = -1; 
+        graphView.currentIndex = -1; 
+        graphView.currentlyViewing = ""; 
+        if (!mainView.subviews.contains(bubbleView))mainView.subviews.add(bubbleView); 
+        if (mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
+        if (mainView.subviews.contains(genderScroll))mainView.subviews.remove(genderScroll);
+        if (mainView.subviews.contains(regionScroll))mainView.subviews.remove(regionScroll);
+        break;
+      case 2:  
+        searchView.myTextfield.show(); 
+        if (!mainView.subviews.contains(searchView))mainView.subviews.add(searchView);
+        if (!mainView.subviews.contains(graphView))mainView.subviews.add(graphView); 
+
+        searchView.searchResults = new ArrayList<String>();
+        for (int i = 0; i< bandNames.size();i++) {
+          searchView.searchResults.add(""+i);
+        }
+        if (mainView.subviews.contains(bubbleView)) mainView.subviews.remove(bubbleView);
+        if (!mainView.subviews.contains(genderScroll))mainView.subviews.add(genderScroll);
+        if (!mainView.subviews.contains(regionScroll)) mainView.subviews.add(regionScroll);
+        if (!mainView.subviews.contains(menuView))mainView.subviews.add(menuView);
+       
+        break;
+      case 3:  
+        if (mainView.subviews.contains(graphView)) mainView.subviews.remove(graphView);
+        searchView.myTextfield.hide();
+        if (mainView.subviews.contains(searchView)) mainView.subviews.remove(searchView);
+        searchView.dragged= ""; 
+        searchView.draggedIndex = -1; 
+        graphView.currentIndex = -1; 
+        graphView.currentlyViewing = "";
+        if (mainView.subviews.contains(bubbleView)) mainView.subviews.remove(bubbleView); 
+        if (mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
+        if (mainView.subviews.contains(genderScroll))mainView.subviews.remove(genderScroll);
+        if (mainView.subviews.contains(regionScroll))mainView.subviews.remove(regionScroll);
+        break;
+      case 4:  
+        if (mainView.subviews.contains(graphView)) mainView.subviews.remove(graphView);
+        searchView.myTextfield.hide();
+        if (mainView.subviews.contains(searchView)) mainView.subviews.remove(searchView);
+        searchView.dragged= ""; 
+        searchView.draggedIndex = -1; 
+        graphView.currentIndex = -1; 
+        graphView.currentlyViewing = "";
+        if (mainView.subviews.contains(bubbleView)) mainView.subviews.remove(bubbleView); 
+        if (mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
+        if (mainView.subviews.contains(genderScroll))mainView.subviews.remove(genderScroll);
+        if (mainView.subviews.contains(regionScroll))mainView.subviews.remove(regionScroll);
+        break;
       }
-       switch(view){
-  case 1:  if(mainView.subviews.contains(graphView)) mainView.subviews.remove(graphView);searchView.myTextfield.hide();if(mainView.subviews.contains(searchView)) mainView.subviews.remove(searchView);searchView.dragged= "";
-  searchView.draggedIndex = -1; graphView.currentIndex = -1; graphView.currentlyViewing = ""; mainView.subviews.add(bubbleView); if(mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
-break;
-  case 2:  searchView.myTextfield.show(); mainView.subviews.add(searchView);mainView.subviews.add(graphView); 
-  
-  searchView.searchResults = new ArrayList<String>();
-  for (int i = 0; i< bandNames.size();i++) {
-    searchView.searchResults.add(""+i);
-    }
-    if(mainView.subviews.contains(bubbleView)) mainView.subviews.remove(bubbleView);
-   genderScroll.subviews.add(showMales);
-   genderScroll.subviews.add(showFemales);
-   mainView.subviews.add(genderScroll);
-   mainView.subviews.add(menuView);
-  break;
-  case 3:  if(mainView.subviews.contains(graphView)) mainView.subviews.remove(graphView);searchView.myTextfield.hide();if(mainView.subviews.contains(searchView)) mainView.subviews.remove(searchView);
-  searchView.dragged= ""; searchView.draggedIndex = -1; graphView.currentIndex = -1; graphView.currentlyViewing = "";
-   if(mainView.subviews.contains(bubbleView)) mainView.subviews.remove(bubbleView); if(mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
-break;
-  case 4:  if(mainView.subviews.contains(graphView)) mainView.subviews.remove(graphView);searchView.myTextfield.hide();if(mainView.subviews.contains(searchView)) mainView.subviews.remove(searchView);
-  searchView.dragged= ""; searchView.draggedIndex = -1; graphView.currentIndex = -1; graphView.currentlyViewing = "";
-   if(mainView.subviews.contains(bubbleView)) mainView.subviews.remove(bubbleView); if(mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
-break;
- 
-  }
     } 
-    
+
     return true;
-  
-}
+  }
+
 }
 
