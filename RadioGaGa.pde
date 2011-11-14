@@ -24,7 +24,7 @@ public PImage nextArrow, prevArrow;
 //color viewBackgroundColor = #2D2A36;
 //color infoBoxBackground = #000000;
 public Integrator genderic;
-
+ PImage ppl;
 public int normalFontSize = 16;
 public int smallFontSize = 12 ;
 public int largeFontSize = 20;
@@ -56,12 +56,18 @@ public ArrayList<String[]> locations = new ArrayList<String[]>();
 //<africa></t><asia></t><europe></t><australia></t><caribbean></t><middleEast></t><northAmerica></t><southAmerica>
 
 // Changing lalalala
+public boolean gendersChecked = false;
+public boolean regionChecked = false;
+public boolean ageChecked = false;
+
 public boolean maleChecked = true;
 public boolean femaleChecked = true;
-public boolean gendersChecked = true;
-public boolean regionChecked = false;
+public boolean unknownGenderChecked = true; 
+
 public boolean genderExpand = true;
 public boolean regionExpand = true;
+public boolean ageExpand = true;
+
 public boolean africaChecked = true;
 public boolean asiaChecked = true;
 public boolean europeChecked = true;
@@ -70,16 +76,31 @@ public boolean southAmericaChecked = true;
 public boolean northAmericaChecked = true;
 public boolean carribeanChecked = true;
 public boolean middleEastChecked = true;
+public boolean unknownRegionChecked = true;
+
+public boolean nineYrsChecked = true;
+public boolean nineteenYrsChecked = true;
+public boolean twentyNineYrsChecked = true;
+public boolean thirtyNineYrsChecked = true;
+public boolean fortyNineYrsChecked = true;
+public boolean fiftyNineYrsChecked = true;
+public boolean sixtyOrMoreChecked = true;
+public boolean unknownAgeChecked = true;
 public ScrollMenu genderScroll;  
+
 public Checkbox showMales;
 public Checkbox showFemales;
-public Checkbox nineyrs;
-public Checkbox nineteenyrs;
-public Checkbox twentynineyrs;
-public Checkbox thirtynineyrs;
-public Checkbox fortynineyrs;
-public Checkbox fiftynineyrs;
-public Checkbox sixtymoreyrs;
+public Checkbox showUnknownGender;
+public ScrollMenu ageScroll;
+
+public Checkbox showNineYrs;
+public Checkbox showNineteenYrs;
+public Checkbox showTwentyNineYrs;
+public Checkbox showThirtyNineYrs;
+public Checkbox showFortyNineYrs;
+public Checkbox showFiftyNineYrs;
+public Checkbox showSixtyOrMoreYrs;
+public Checkbox showUnknownAge;
 
 public Checkbox showAfrica;
 public Checkbox showAsia;
@@ -89,10 +110,12 @@ public Checkbox showNorthAmerica;
 public Checkbox showSouthAmerica;
 public Checkbox showCarribean;
 public Checkbox showMiddleEast;
+public Checkbox showUnknownRegion;
 
 public PImage checkboxChecked ;
 public ScrollMenu regionScroll;
 public PImage checkboxUnchecked;
+public PImage buttonCheck, buttonCross;
 // public PImage checkboxChecked2 = loadImage("checkbox_checked.png");
 
 //  public PImage checkboxUnchecked2 = loadImage("checkbox_unchecked.png");
@@ -106,21 +129,33 @@ public void setup()
   checkboxChecked = loadImage("checkbox_checked.png");
 
   checkboxUnchecked = loadImage("checkbox_unchecked.png");
+  buttonCheck = loadImage("button-check.png");
+  buttonCross = loadImage("button-cross.png");
+  buttonCheck.resize(0,20);
+  buttonCross.resize(0,20);
 
   textFont(f2);
   papplet = this;
   mainView = new View(0, 0, width, height);
-  genderScroll = new ScrollMenu(150, 499, 190, 5, genderExpand, 120);
-  regionScroll = new ScrollMenu(370,260,190,5,regionExpand,360);
+  genderScroll = new ScrollMenu(150, 479, 190, 5, genderExpand, 140);
+  regionScroll = new ScrollMenu(350,260,190,5,regionExpand,360);
+  ageScroll = new ScrollMenu(550,260,190,5,ageExpand,360);
   //  int i  = 0;
-  // String key = "b25b959554ed76058ac220b7b2e0a026"; //this is the key used in the last.fm API examples online.
+   // String key = "b25b959554ed76058ac220b7b2e0a026"; //this is the key used in the last.fm API examples online.
 
   //topTracks = Artist.getTopTracks("Depeche Mode", key);
-
-
+/*
+  PaginatedResult p = Artist.getImages("Depeche Mode", key);
+  Collection<Image> p2 = p.getPageResults();
+  Object[] ps = new Object[p2.size()];
+  ps = p2.toArray();
+  de.umass.lastfm.Image imagy = (de.umass.lastfm.Image)ps[1];
+  ppl = loadImage(imagy.getImageURL(ImageSize.LARGE),"png");
+*/
+ // System.out.println(p.contains(""));
   smooth();
 
-  viewTabs = new TabView(10, 10, 500, 500);
+  viewTabs = new TabView(10, 10, 500, 50);
   mainView.subviews.add(viewTabs);
   controlP5 = new ControlP5(this);
 
@@ -162,7 +197,8 @@ public void setup()
     locations.add(tokens3);
   }
   showMales = new Checkbox((float)10, (float)20, 25, 25, checkboxChecked, checkboxUnchecked, "Males", true);
-  showFemales = new Checkbox((float)10, (float)60, 25, 25, checkboxChecked, checkboxUnchecked, "Females", true);
+  showFemales = new Checkbox((float)10, (float)40, 25, 25, checkboxChecked, checkboxUnchecked, "Females", true);
+  showUnknownGender = new Checkbox((float)10, (float)60, 25, 25, checkboxChecked, checkboxUnchecked, "Unspecified", true);
   showAfrica  = new Checkbox((float)10, (float)20, 25, 25, checkboxChecked, checkboxUnchecked, "Africa", true);
   showAsia = new Checkbox((float)10, (float)40, 25, 25, checkboxChecked, checkboxUnchecked, "Asia", true);
   showEurope = new Checkbox((float)10, (float)60, 25, 25, checkboxChecked, checkboxUnchecked, "Europe", true);
@@ -170,10 +206,20 @@ public void setup()
   showSouthAmerica = new Checkbox((float)10, (float)100, 25, 25, checkboxChecked, checkboxUnchecked, "South America", true);
   showAustralia = new Checkbox((float)10, (float)120, 25, 25, checkboxChecked, checkboxUnchecked, "Australia", true);
   showCarribean = new Checkbox((float)10, (float)140, 25, 25, checkboxChecked, checkboxUnchecked, "Carribean", true);
- showMiddleEast= new Checkbox((float)10, (float)160, 25, 25, checkboxChecked, checkboxUnchecked, "Middle East", true);
-  
-   if (!genderScroll.subviews.contains(showMales)) genderScroll.subviews.add(showMales);
+  showMiddleEast= new Checkbox((float)10, (float)160, 25, 25, checkboxChecked, checkboxUnchecked, "Middle East", true);
+  showUnknownRegion = new Checkbox((float)10, (float)180, 25, 25, checkboxChecked, checkboxUnchecked, "Unspecified", true);
+  showNineYrs = new Checkbox((float)10, (float)20, 25, 25, checkboxChecked, checkboxUnchecked, "0 - 9 years", true);     
+  showNineteenYrs = new Checkbox((float)10, (float)40, 25, 25, checkboxChecked, checkboxUnchecked, "10 - 19 years", true);     
+  showTwentyNineYrs = new Checkbox((float)10, (float)60, 25, 25, checkboxChecked, checkboxUnchecked, "20 - 29 years", true);  
+  showThirtyNineYrs = new Checkbox((float)10, (float)80, 25, 25, checkboxChecked, checkboxUnchecked, "30 - 39 years", true);
+  showFortyNineYrs = new Checkbox((float)10, (float)100, 25, 25, checkboxChecked, checkboxUnchecked, "40 - 49 years", true);    
+  showFiftyNineYrs = new Checkbox((float)10, (float)120, 25, 25, checkboxChecked, checkboxUnchecked, "50 - 59 years", true); 
+  showSixtyOrMoreYrs = new Checkbox((float)10, (float)140, 25, 25, checkboxChecked, checkboxUnchecked, "60+ years", true);
+  showUnknownAge = new Checkbox((float)10, (float)160, 25, 25, checkboxChecked, checkboxUnchecked, "Unspecified", true);
+   
+        if (!genderScroll.subviews.contains(showMales)) genderScroll.subviews.add(showMales);
         if (!genderScroll.subviews.contains(showFemales)) genderScroll.subviews.add(showFemales);
+        if (!genderScroll.subviews.contains(showUnknownGender)) genderScroll.subviews.add(showUnknownGender);
         if (!regionScroll.subviews.contains(showAfrica))regionScroll.subviews.add(showAfrica);
         if (!regionScroll.subviews.contains(showAsia))regionScroll.subviews.add(showAsia);
         if (!regionScroll.subviews.contains(showEurope))regionScroll.subviews.add(showEurope);
@@ -182,12 +228,22 @@ public void setup()
         if (!regionScroll.subviews.contains(showAustralia))regionScroll.subviews.add(showAustralia);
         if (!regionScroll.subviews.contains(showCarribean))regionScroll.subviews.add(showCarribean);
         if (!regionScroll.subviews.contains(showMiddleEast))regionScroll.subviews.add(showMiddleEast);
-       
+        if (!regionScroll.subviews.contains(showUnknownRegion))regionScroll.subviews.add(showUnknownRegion);
+        ageScroll.subviews.add(showNineYrs);  
+        ageScroll.subviews.add(showNineteenYrs);
+        ageScroll.subviews.add(showTwentyNineYrs);
+        ageScroll.subviews.add(showThirtyNineYrs);
+        ageScroll.subviews.add(showFortyNineYrs);
+        ageScroll.subviews.add(showFiftyNineYrs);
+        ageScroll.subviews.add(showSixtyOrMoreYrs);
+        ageScroll.subviews.add(showUnknownAge);
 }
 public void draw()
 {
   background(backgroundColor, 200); 
   mainView.draw();
+  if(ppl != null)
+  image(ppl, 50,200);
  //genderic.update();
   drawDraggableBox();
   }
@@ -207,17 +263,16 @@ void mouseDragged()
 
 void mouseClicked()
 {
-  // println("Clicked in " +newcheckbox.title + " " + newcheckbox.value );
   mainView.mouseClicked(mouseX, mouseY);
-  // println("Clicked in new  " +newcheckbox.title + " " + newcheckbox.value );
-  gendersChecked = menuView.byGender.value;
+ 
   maleChecked = showMales.value;
   femaleChecked = showFemales.value;
+  unknownGenderChecked = showUnknownGender.value;
   genderExpand = genderScroll.expanded;
  // System.out.println("Gender Expand "+ genderExpand);
   regionExpand = regionScroll.expanded;
  // System.out.println("Region Expand "+regionExpand);
-  regionChecked = menuView.byRegion.value;
+  
 // System.out.println("Region Checked "+ regionChecked);
    africaChecked = showAfrica.value;
    asiaChecked  = showAsia.value;
@@ -227,6 +282,25 @@ void mouseClicked()
    northAmericaChecked = showNorthAmerica.value;
    southAmericaChecked = showSouthAmerica.value;
    carribeanChecked = showCarribean.value;
+   unknownRegionChecked = showUnknownRegion.value;  
+ // System.out.println(unknownRegionChecked);
+
+   ageExpand = ageScroll.expanded;
+ 
+   nineYrsChecked = showNineYrs.value;
+   nineteenYrsChecked = showNineteenYrs.value;
+   twentyNineYrsChecked = showTwentyNineYrs.value;
+   thirtyNineYrsChecked = showThirtyNineYrs.value;
+   fortyNineYrsChecked = showFortyNineYrs.value;
+   fiftyNineYrsChecked = showFiftyNineYrs.value;
+   sixtyOrMoreChecked = showSixtyOrMoreYrs.value;
+   unknownAgeChecked = showUnknownAge.value;
+   
+    gendersChecked = menuView.byGender.value;
+     regionChecked = menuView.byRegion.value;
+     ageChecked = menuView.byAge.value;
+  //  System.out.println("Gender "+gendersChecked+" Reigon "+regionChecked+" ageChecked "+ageChecked);
+    
 } 
 void keyPressed() {
   //System.out.println("Here!");

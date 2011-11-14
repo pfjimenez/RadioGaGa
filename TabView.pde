@@ -72,7 +72,7 @@ class TabView extends View {
   boolean contentClicked(float lx, float ly)
   {
 //    System.out.println(ly + " BUT "+tabTop + " AND " +tabBottom);  
-    if (ly >= tabTop && ly <= tabBottom) {
+   if(ly >y && ly < y+h){
 
       // Changing the view if a tab is clicked  
       for (int i = 0; i< 4; i++) {
@@ -95,6 +95,8 @@ class TabView extends View {
         if (mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
         if (mainView.subviews.contains(genderScroll))mainView.subviews.remove(genderScroll);
         if (mainView.subviews.contains(regionScroll))mainView.subviews.remove(regionScroll);
+        if (mainView.subviews.contains(ageScroll))mainView.subviews.remove(ageScroll);
+      
         break;
       case 2:  
         searchView.myTextfield.show(); 
@@ -108,6 +110,8 @@ class TabView extends View {
         if (mainView.subviews.contains(bubbleView)) mainView.subviews.remove(bubbleView);
         if (!mainView.subviews.contains(genderScroll))mainView.subviews.add(genderScroll);
         if (!mainView.subviews.contains(regionScroll)) mainView.subviews.add(regionScroll);
+        if (!mainView.subviews.contains(ageScroll))mainView.subviews.add(ageScroll);
+    
         if (!mainView.subviews.contains(menuView))mainView.subviews.add(menuView);
        
         break;
@@ -123,6 +127,8 @@ class TabView extends View {
         if (mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
         if (mainView.subviews.contains(genderScroll))mainView.subviews.remove(genderScroll);
         if (mainView.subviews.contains(regionScroll))mainView.subviews.remove(regionScroll);
+        if (mainView.subviews.contains(ageScroll))mainView.subviews.remove(ageScroll);
+     
         break;
       case 4:  
         if (mainView.subviews.contains(graphView)) mainView.subviews.remove(graphView);
@@ -136,12 +142,16 @@ class TabView extends View {
         if (mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
         if (mainView.subviews.contains(genderScroll))mainView.subviews.remove(genderScroll);
         if (mainView.subviews.contains(regionScroll))mainView.subviews.remove(regionScroll);
+        if (mainView.subviews.contains(ageScroll))mainView.subviews.remove(ageScroll);
+    
         break;
       }
-    } 
+    
 
     return true;
   }
-
+  return false;
+  }
+  
 }
 
