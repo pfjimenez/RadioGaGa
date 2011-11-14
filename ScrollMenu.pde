@@ -15,7 +15,7 @@ class ScrollMenu extends View {
     translate(this.x, this.y);
     // draw out content, then our subviews on top
     //    drawContent();
-    fill(0, 150);
+    fill(0, 180);
     rect(0, head.value, w, openedHeight);
    if(expanded){
      if(subviews.size()>0){

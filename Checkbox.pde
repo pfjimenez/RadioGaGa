@@ -134,7 +134,7 @@ class Checkbox extends View {
  //System.out.println(title+" "+value);
     return true;
   }
-  boolean mosueClicked(float px, float py){
+  boolean mouseClicked(float px, float py){
     if(c == '0'){
     if (!ptInRect(px, py, x, y, w, h)) return false;
     float lx = px - x;

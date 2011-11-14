@@ -21,15 +21,20 @@ public color menuColor1 = #483D8B;
 public color draggableContentBoxColor= #CCCCFF;
 public PFont f2, fbold;
 public PImage nextArrow, prevArrow;
-//color viewBackgroundColor = #2D2A36;
-//color infoBoxBackground = #000000;
-public Integrator genderic;
+
+// Baby Blue, baby pink, pink, Darker blue, Orange, green, yellow, grey
+color[] barsColor = {
+  #C6E2FF, #FFC0CB, #EE799F,#87CEFA, #FFA54F,#BCEE68,#FFEC8B,#CFCFCF
+};
+
+
  PImage ppl;
 public int normalFontSize = 16;
 public int smallFontSize = 12 ;
 public int largeFontSize = 20;
 public ControlP5 controlP5;
 
+// The different Views
 public View mainView;
 public TabView viewTabs;
 public CenterView graphView;
@@ -37,12 +42,15 @@ public MenuView menuView;
 
 public Collection<Track> topTracks;
 
+// Used for Bubbles
 public int circlesOnScreen;
 public int maxNumOfCircles; // max number of circles (characters) that will be drawn.
 public int valuesTotal = 0;
 //public Ball[] balls = new Ball[0];
 public SearchView searchView;
 public BubbleView bubbleView;
+
+// Reading in singers and artists files
 /*
    <artist band name> <tab> <number of view by users> <tab> <number of male listening> <number of female listening> <tab> <ages of users listening> <tan> <region of where it was listened>
  */
@@ -55,18 +63,20 @@ public ArrayList<String[]> ages = new ArrayList<String[]>();
 public ArrayList<String[]> locations = new ArrayList<String[]>();
 //<africa></t><asia></t><europe></t><australia></t><caribbean></t><middleEast></t><northAmerica></t><southAmerica>
 
-// Changing lalalala
+// Changing Checkboxes and radioboxes
 public boolean gendersChecked = false;
 public boolean regionChecked = false;
 public boolean ageChecked = false;
+public boolean allChecked = true;
+public boolean customizeChecked  = false;
 
 public boolean maleChecked = true;
 public boolean femaleChecked = true;
 public boolean unknownGenderChecked = true; 
 
-public boolean genderExpand = true;
-public boolean regionExpand = true;
-public boolean ageExpand = true;
+public boolean genderExpand = false;
+public boolean regionExpand = false;
+public boolean ageExpand = false;
 
 public boolean africaChecked = true;
 public boolean asiaChecked = true;
@@ -86,12 +96,11 @@ public boolean fortyNineYrsChecked = true;
 public boolean fiftyNineYrsChecked = true;
 public boolean sixtyOrMoreChecked = true;
 public boolean unknownAgeChecked = true;
-public ScrollMenu genderScroll;  
 
 public Checkbox showMales;
 public Checkbox showFemales;
 public Checkbox showUnknownGender;
-public ScrollMenu ageScroll;
+public ScrollMenu genderScroll;  
 
 public Checkbox showNineYrs;
 public Checkbox showNineteenYrs;
@@ -101,6 +110,8 @@ public Checkbox showFortyNineYrs;
 public Checkbox showFiftyNineYrs;
 public Checkbox showSixtyOrMoreYrs;
 public Checkbox showUnknownAge;
+public ScrollMenu ageScroll;
+
 
 public Checkbox showAfrica;
 public Checkbox showAsia;
@@ -111,15 +122,13 @@ public Checkbox showSouthAmerica;
 public Checkbox showCarribean;
 public Checkbox showMiddleEast;
 public Checkbox showUnknownRegion;
+public ScrollMenu regionScroll;
 
 public PImage checkboxChecked ;
-public ScrollMenu regionScroll;
 public PImage checkboxUnchecked;
-public PImage buttonCheck, buttonCross;
-// public PImage checkboxChecked2 = loadImage("checkbox_checked.png");
 
-//  public PImage checkboxUnchecked2 = loadImage("checkbox_unchecked.png");
-
+public int startEntry = 0;
+public int endEntry = 9;
 
 public void setup()
 {
@@ -129,10 +138,10 @@ public void setup()
   checkboxChecked = loadImage("checkbox_checked.png");
 
   checkboxUnchecked = loadImage("checkbox_unchecked.png");
-  buttonCheck = loadImage("button-check.png");
-  buttonCross = loadImage("button-cross.png");
-  buttonCheck.resize(0,20);
-  buttonCross.resize(0,20);
+ // buttonCheck = loadImage("button-check.png");
+ // buttonCross = loadImage("button-cross.png");
+ // buttonCheck.resize(0,20);
+ // buttonCross.resize(0,20);
 
   textFont(f2);
   papplet = this;
@@ -159,7 +168,7 @@ public void setup()
   mainView.subviews.add(viewTabs);
   controlP5 = new ControlP5(this);
 
-  graphView  = new CenterView(10, 30, 900, 580);
+  graphView  = new CenterView(10, 50, 900, 550);
   searchView = new SearchView(920, 20, 175, 600);
   bubbleView = new BubbleView(100, 30, 900, 600);
   mainView.subviews.add(bubbleView);
@@ -169,7 +178,7 @@ public void setup()
   prevArrow = loadImage("Previous.png"); 
   prevArrow.resize(0, 40);
 
-  menuView = new MenuView(50, 635, 800, 20);
+  menuView = new MenuView(50, 635, 1000, 20);
   gendersChecked = menuView.byGender.value;
   regionChecked = menuView.byRegion.value;
   /*
@@ -182,7 +191,7 @@ public void setup()
    artist band name> <tab> <number of view by users> <tab> <number of male listening> <number of female listening> <tab> <ages of users listening> <tan> <region of where it was listened>
    */
   // Setting up the static data that we have and are gonna use except when live data is needed
-  String[] rowsin = loadStrings("output6.txt"); 
+  String[] rowsin = loadStrings("output1.txt"); 
   int rowsinno = rowsin.length;
   for (int i = 0; i< rowsinno; i++) {
     String []tokens = rowsin[i].split("\t");
@@ -258,7 +267,41 @@ void mousePressed()
 
 void mouseDragged()
 {
+  System.out.println(graphView.lastDrag);
+  if(viewTabs.view == 2 && graphView.lastDrag != -555){
+      if (mouseX < graphView.lastDrag &&  (graphView.lastDrag - mouseX)%5 ==0 && endEntry < bandNames.size()-1 && allChecked) {
+        startEntry+=1;
+        endEntry+=1;
+        graphView.subviews = new ArrayList<View>();
+        int x2 = 70;
+        int y2 = 0;
+        for (int j = startEntry ; j <= endEntry; j++) {
+          Entry e = new Entry((float)x2, (float)y2, (float)50, graphView.h, j);
+          graphView.subviews.add(e);
+          x2+=100;
+        }
+        graphView.lastDrag = mouseX;
+      }else{
+      if(mouseX > graphView.lastDrag && (mouseX-graphView.lastDrag)%5 ==0 && startEntry >0 && allChecked){
+        startEntry-=1;
+        endEntry-=1;
+        graphView.subviews = new ArrayList<View>();
+        int x2 = 70;
+        int y2 = 0;
+        for (int j = startEntry ; j <= endEntry; j++) {
+          Entry e = new Entry((float)x2, (float)y2, (float)50, graphView.h, j);
+          graphView.subviews.add(e);
+          x2+=100;
+        }
+        graphView.lastDrag = mouseX;
+      }
+      }
+    
+  
+  }
+  else{
   mainView.mouseDragged(mouseX, mouseY);
+  }
 }
 
 void mouseClicked()
@@ -268,12 +311,11 @@ void mouseClicked()
   maleChecked = showMales.value;
   femaleChecked = showFemales.value;
   unknownGenderChecked = showUnknownGender.value;
+
   genderExpand = genderScroll.expanded;
- // System.out.println("Gender Expand "+ genderExpand);
   regionExpand = regionScroll.expanded;
- // System.out.println("Region Expand "+regionExpand);
-  
-// System.out.println("Region Checked "+ regionChecked);
+  ageExpand = ageScroll.expanded;
+
    africaChecked = showAfrica.value;
    asiaChecked  = showAsia.value;
    europeChecked = showEurope.value;
@@ -283,9 +325,7 @@ void mouseClicked()
    southAmericaChecked = showSouthAmerica.value;
    carribeanChecked = showCarribean.value;
    unknownRegionChecked = showUnknownRegion.value;  
- // System.out.println(unknownRegionChecked);
 
-   ageExpand = ageScroll.expanded;
  
    nineYrsChecked = showNineYrs.value;
    nineteenYrsChecked = showNineteenYrs.value;
@@ -297,9 +337,11 @@ void mouseClicked()
    unknownAgeChecked = showUnknownAge.value;
    
     gendersChecked = menuView.byGender.value;
-     regionChecked = menuView.byRegion.value;
-     ageChecked = menuView.byAge.value;
-  //  System.out.println("Gender "+gendersChecked+" Reigon "+regionChecked+" ageChecked "+ageChecked);
+    regionChecked = menuView.byRegion.value;
+    ageChecked = menuView.byAge.value;
+    allChecked = menuView.all.value;
+    customizeChecked = menuView.customize.value;
+    
     
 } 
 void keyPressed() {
@@ -308,6 +350,7 @@ void keyPressed() {
   mainView.keypressed();
 }
 void mouseReleased() {
+  graphView.lastDrag = -555;
   mainView.mouseReleased(mouseX, mouseY);
 }
 void drawDraggableBox() {

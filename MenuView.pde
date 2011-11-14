@@ -12,31 +12,24 @@ class MenuView extends View {
 
   Checkbox byGender;
   Checkbox byRegion;
-
   Checkbox byAge;
-  /*
-  Checkbox showMales = new Checkbox((float)90, (float)-100, 25, 25, checkboxChecked, checkboxUnchecked, "Males", true);
-   Checkbox showFemales = new Checkbox((float)90, (float)-60, 25, 25, checkboxChecked, checkboxUnchecked, "Females", true);
-   */
+  Checkbox all;
+  Checkbox customize;
 
   MenuView(float x_, float y_, float w_, float h_)
   {
     super(x_, y_, w_, h_);
-/*
-    byGender = new Checkbox((float)100, (float)-5, 25, 25, buttonCheck, buttonCross, "By Gender  ", gendersChecked);
-    byRegion = new Checkbox((float)320, (float)-5, 25, 25, buttonCheck, buttonCross, "By Region  ", regionChecked);
 
-    byAge = new Checkbox((float)520, (float)-5, 25, 25, buttonCheck, buttonCross, "By Age     ", ageChecked);
-*/
-// String text_, boolean value, char c
- byGender = new Checkbox((float)110, (float)5, 25, 25, "By Gender  ", gendersChecked,'1');
-    byRegion = new Checkbox((float)330, (float)5, 25, 25,"By Region  ", regionChecked,'1');
-
-    byAge = new Checkbox((float)530, (float)5, 25, 25, "By Age     ", ageChecked,'1');
-
+    byGender = new Checkbox((float)110, (float)5, 25, 25, "By Gender  ", gendersChecked, '1');
+    byRegion = new Checkbox((float)330, (float)5, 25, 25, "By Region  ", regionChecked, '1');
+    byAge = new Checkbox((float)530, (float)5, 25, 25, "By Age     ", ageChecked, '1');
+    all = new Checkbox((float)760, (float)5, 25, 25, "All              ", allChecked, '1');
+    customize = new Checkbox((float)850, (float)5, 25, 25, "Customize   ", customizeChecked, '1');
     this.subviews.add(byGender);    
     this.subviews.add(byRegion);
     this.subviews.add(byAge);
+    this.subviews.add(all);
+    this.subviews.add(customize);
   }
 
   // Source of the Code: http://processing.org/discourse/yabb2/YaBB.pl?num=1213696787
@@ -68,13 +61,12 @@ class MenuView extends View {
   {
     fill(menuColor1);
 
-    roundrect(0, 0, 800, 15, 15);
+    roundrect(0, 0, (int)w, 15, 15);
     fill(textColor2);
     textFont(fbold);
     textSize(18);
     text("Filter:", 50, 12);
-    textFont(f2);
-
+    text("Draw: ", 710, 12);
     textFont(f2);
   }
 
@@ -96,27 +88,43 @@ class MenuView extends View {
       Checkbox c = (Checkbox)subviews.get(i);
       View v = (View)subviews.get(i);
       if (v.mouseClicked(lx, ly)) {
-        if (c.getTitle().contains("Age")&& c.value ){
-        byGender.value = false;
-        byRegion.value = false;
+        if (c.getTitle().contains("Age")&& c.value ) {
+          byGender.value = false;
+          byRegion.value = false;
         }
-        if (c.getTitle().contains("Region")&& c.value ){
-        byGender.value = false;
-        byAge.value = false;
+        if (c.getTitle().contains("Region")&& c.value ) {
+          byGender.value = false;
+          byAge.value = false;
         }
-        if (c.getTitle().contains("Gender")&& c.value ){
-        byAge.value = false;
-        byRegion.value = false;
+        if (c.getTitle().contains("Gender")&& c.value ) {
+          byAge.value = false;
+          byRegion.value = false;
         }
-        
+        if (c.getTitle().contains("All")&& c.value ) {
+          customize.value = false;
+        }
 
+        if (c.getTitle().contains("Customize")&& c.value ) {
+          all.value = false;
+        }
 
-        
-          return true;
-      }
+        if (all.value) {
+          int x2 = 70;
+          int y2 = 0;
+          startEntry = 0;
+          endEntry = 7;
+          for (int j = startEntry ; j <= endEntry;j++) {
+            Entry e = new Entry((float)x2, (float)y2, (float)50, graphView.h, j);
+            if (!graphView.subviews.contains(e))graphView.subviews.add(e);
+            x2+=100;
+          }
+        }
+      
+
+      return true;
     }
-    return contentClicked(lx, ly);
   }
-  
+  return contentClicked(lx, ly);
 }
 
+}

@@ -113,6 +113,17 @@ class TabView extends View {
         if (!mainView.subviews.contains(ageScroll))mainView.subviews.add(ageScroll);
     
         if (!mainView.subviews.contains(menuView))mainView.subviews.add(menuView);
+        if (menuView.all.value) {
+          int x2 = 70;
+          int y2 = 0;
+          startEntry = 0;
+          endEntry = 7;
+          for (int j = startEntry ; j <= endEntry;j++) {
+            Entry e = new Entry((float)x2, (float)y2, (float)50, graphView.h, j);
+            if (!graphView.subviews.contains(e))graphView.subviews.add(e);
+            x2+=100;
+          }
+        }
        
         break;
       case 3:  
