@@ -14,7 +14,7 @@ class CenterView extends View {
     strokeWeight(2);
     stroke(tabColor2);
     fill(255);
-    rect(10, 10, w, h);
+    rect(10, 0, w, h);
     fill(tabColor2);
     text(currentlyViewing,w/2,h/2);
     /* if(viewTabs.view == 2 && allChecked){
@@ -33,6 +33,36 @@ class CenterView extends View {
      text(currentlyViewing, x+(w/2), y+(h/2));
      }
      */
+     strokeWeight(0.5);
+     stroke(#CFCFCF);
+     line(40,h-30,40,10);
+       fill(0);
+       textSize(10);
+if(!gendersChecked && ! ageChecked && !regionChecked){
+     for(int i = 0; i < 315;i+=50){
+       float y3 = map(i*10000,0,3150000,h-30,10);
+       text(i,25,y3);
+     }}
+     if(gendersChecked){
+       for(int i = 0; i < 8000;i+=1000){
+       float y3 = map(i,0,7150,h-30,5);
+       text(i,25,y3);
+     }
+     }
+     if(regionChecked){
+       for(int i = 0; i < 8000;i+=500){
+       float y3 = map(i,0,8000,h-30,5);
+       text(i,25,y3);
+       }
+     }
+     if(ageChecked){
+            for(int i = 0; i < 7000;i+=500){
+       float y3 = map(i,0,7000,h-30,5);
+       text(i,25,y3);
+       }
+     
+     }
+     textSize(10);
   }
   boolean mousePressed(float px, float py) 
   {

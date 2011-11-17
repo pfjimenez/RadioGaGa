@@ -21,10 +21,10 @@ public color menuColor1 = #483D8B;
 public color draggableContentBoxColor= #CCCCFF;
 public PFont f2, fbold;
 public PImage nextArrow, prevArrow;
-
-// Baby Blue, baby pink, pink, Darker blue, Orange, green, yellow, grey
+public int maxl, minl;
+// Baby Blue, baby pink, pink, Darker blue, Dark green, green, Orange, grey,pruple
 color[] barsColor = {
-  #C6E2FF, #FFC0CB, #EE799F,#87CEFA, #FFA54F,#BCEE68,#FFEC8B,#CFCFCF
+  #C6E2FF, #FFC0CB, #EE799F,#87CEFA, #2E8B57,#BCEE68,#FFA54F,#CFCFCF,#AB82FF
 };
 
 
@@ -127,8 +127,22 @@ public ScrollMenu regionScroll;
 public PImage checkboxChecked ;
 public PImage checkboxUnchecked;
 
+// Variables used for the graphs
 public int startEntry = 0;
-public int endEntry = 9;
+public int endEntry = 8;
+
+// These integrators are used for plotting
+// Here're how they go:
+// 0 - 9 - Used for males, Afria or 0-9 years or for overall listeners
+// 10 - 19 - Used for Females, Asia, 10-19 years
+// 20 - 29 Used for Undetermined Genders, Europe or 20 - 29 years
+// 30 - 39 Used for N.America, 30 - 39 years
+// 40 - 49 Used for S.America, 40 - 49 years
+// 50 - 59  used for australia, 50 - 59 years
+// 60 - 69 used for carribean, 60 or mroe years
+// 70 - 79 used for middle east, unspecified age
+// 80 - 89 used for unspecified region
+public ArrayList<Integrator> integrators = new ArrayList<Integrator>();
 
 public void setup()
 {
@@ -228,7 +242,7 @@ public void setup()
    
         if (!genderScroll.subviews.contains(showMales)) genderScroll.subviews.add(showMales);
         if (!genderScroll.subviews.contains(showFemales)) genderScroll.subviews.add(showFemales);
-        if (!genderScroll.subviews.contains(showUnknownGender)) genderScroll.subviews.add(showUnknownGender);
+   //     if (!genderScroll.subviews.contains(showUnknownGender)) genderScroll.subviews.add(showUnknownGender);
         if (!regionScroll.subviews.contains(showAfrica))regionScroll.subviews.add(showAfrica);
         if (!regionScroll.subviews.contains(showAsia))regionScroll.subviews.add(showAsia);
         if (!regionScroll.subviews.contains(showEurope))regionScroll.subviews.add(showEurope);
@@ -238,6 +252,7 @@ public void setup()
         if (!regionScroll.subviews.contains(showCarribean))regionScroll.subviews.add(showCarribean);
         if (!regionScroll.subviews.contains(showMiddleEast))regionScroll.subviews.add(showMiddleEast);
         if (!regionScroll.subviews.contains(showUnknownRegion))regionScroll.subviews.add(showUnknownRegion);
+        
         ageScroll.subviews.add(showNineYrs);  
         ageScroll.subviews.add(showNineteenYrs);
         ageScroll.subviews.add(showTwentyNineYrs);
@@ -246,6 +261,37 @@ public void setup()
         ageScroll.subviews.add(showFiftyNineYrs);
         ageScroll.subviews.add(showSixtyOrMoreYrs);
         ageScroll.subviews.add(showUnknownAge);
+        
+       // minl = Integer.parseInt(locations.get(0)[0]);
+       // maxl = Integer.parseInt(locations.get(0)[0]);
+  /*      int maxIndex = 0;
+        for(int j = 0; j < locations.get(0).length;j++){
+        minl = minl+Integer.parseInt(locations.get(0)[j]);
+        maxl = maxl+Integer.parseInt(locations.get(0)[j]);
+        }
+        
+        for(int i = 1 ; i< locations.size();i++){
+      int l=0;
+/// 
+for(int j = 0; j < locations.get(i).length;j++){
+     //       if(j != 4 && j != 5){
+      l = l+Integer.parseInt(locations.get(i)[j]);
+      }
+  //l = Integer.parseInt(locations.get(i)[0]);  
+        if(l>maxl){
+        maxl = l;
+        maxIndex= i;
+        }
+        if(l<minl)
+        minl = l;         //}
+  //      }
+        }*/
+        //System.out.println("Maximum Listeners: "+maxl+"@ Index = "+maxIndex+ "\nMinimum Listeners: "+minl);
+        
+  for(int i = 0 ; i< 90; i++){
+  Integrator temp = new Integrator(graphView.h);
+  integrators.add(temp);
+  }
 }
 public void draw()
 {
@@ -269,7 +315,7 @@ void mouseDragged()
 {
   System.out.println(graphView.lastDrag);
   if(viewTabs.view == 2 && graphView.lastDrag != -555){
-      if (mouseX < graphView.lastDrag &&  (graphView.lastDrag - mouseX)%5 ==0 && endEntry < bandNames.size()-1 && allChecked) {
+      if (mouseX < graphView.lastDrag &&  (graphView.lastDrag - mouseX)%10 ==0 && endEntry < bandNames.size()-1 && allChecked) {
         startEntry+=1;
         endEntry+=1;
         graphView.subviews = new ArrayList<View>();
@@ -278,11 +324,11 @@ void mouseDragged()
         for (int j = startEntry ; j <= endEntry; j++) {
           Entry e = new Entry((float)x2, (float)y2, (float)50, graphView.h, j);
           graphView.subviews.add(e);
-          x2+=100;
+          x2+=90;
         }
         graphView.lastDrag = mouseX;
       }else{
-      if(mouseX > graphView.lastDrag && (mouseX-graphView.lastDrag)%5 ==0 && startEntry >0 && allChecked){
+      if(mouseX > graphView.lastDrag && (mouseX-graphView.lastDrag)%10 ==0 && startEntry >0 && allChecked){
         startEntry-=1;
         endEntry-=1;
         graphView.subviews = new ArrayList<View>();
@@ -291,7 +337,7 @@ void mouseDragged()
         for (int j = startEntry ; j <= endEntry; j++) {
           Entry e = new Entry((float)x2, (float)y2, (float)50, graphView.h, j);
           graphView.subviews.add(e);
-          x2+=100;
+          x2+=90;
         }
         graphView.lastDrag = mouseX;
       }

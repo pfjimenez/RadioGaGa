@@ -5,11 +5,6 @@ class MenuView extends View {
 
 
 
-  Integrator leftMenuHead = new Integrator(20);
-  Integrator leftMenu = new Integrator(20);
-  Integrator leftCheckBoxes = new Integrator(100);
-  Integrator leftText = new Integrator(130);
-
   Checkbox byGender;
   Checkbox byRegion;
   Checkbox byAge;
@@ -109,14 +104,21 @@ class MenuView extends View {
         }
 
         if (all.value) {
+ integrators = new ArrayList<Integrator>(); 
+          for(int j = 0 ; j< 90; j++){
+  
+             Integrator temp = new Integrator(graphView.h);
+  integrators.add(temp);
+  }
           int x2 = 70;
           int y2 = 0;
-          startEntry = 0;
-          endEntry = 7;
+         
+            graphView.subviews = new ArrayList<View>();
+          
           for (int j = startEntry ; j <= endEntry;j++) {
             Entry e = new Entry((float)x2, (float)y2, (float)50, graphView.h, j);
             if (!graphView.subviews.contains(e))graphView.subviews.add(e);
-            x2+=100;
+            x2+=90;
           }
         }
       
