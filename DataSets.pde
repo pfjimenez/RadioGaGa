@@ -1,7 +1,7 @@
 void loadData(){
   
     // Setting up the static data that we have and are gonna use except when live data is needed
-  String[] rowsin = loadStrings("output6.txt"); 
+  String[] rowsin = loadStrings("sortParsedOutput.txt"); 
   int rowsinno = rowsin.length;
   for (int i = 0; i< rowsinno; i++) {
     String []tokens = rowsin[i].split("\t");

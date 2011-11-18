@@ -1,12 +1,7 @@
 // This class is used to draw the Center View for Graph View
 class CenterView extends View {
 
-<<<<<<< HEAD
-  public String currentlyViewing = "";
-  public int currentIndex = -1;
   public int lastDrag = -555;
-=======
->>>>>>> parent of ef4fb8b... Updates
 
   CenterView(float x_, float y_, float w_, float h_)
   {

@@ -10,14 +10,14 @@ class SearchView extends View {
   public String searching = "";
   public int startResult = 0;
   public int endResult = 18;
-  public int numBoxes = 18;
+  public int numBoxes = 16;
   public int stringSelected = -1;
   public ArrayList<String> searchResults;
   public  String dragged = "";
   public int draggedIndex = -1;
-  
+
   int boxStart = 30;
-  
+
   SearchView(float x_, float y_, float w_, float h_)
   {
     super(x_, y_, w_, h_);
@@ -37,7 +37,7 @@ class SearchView extends View {
     //System.out.println(searchResults.size());
   }
 
-  SearchView(float x_, float y_, float w_, float h_,int numBoxes_)
+  SearchView(float x_, float y_, float w_, float h_, int numBoxes_)
   {
     super(x_, y_, w_, h_);
     numBoxes = numBoxes_;
@@ -83,41 +83,41 @@ class SearchView extends View {
       text(t, w/2, y2+20);
       y2 = y2 + 30;
     } 
-    textAlign(LEFT,TOP);
+    textAlign(LEFT, TOP);
     textSize(largeFontSize);
     if (endResult < searchResults.size()-1) {
       fill(tabColor2);  
-      image(nextArrow, w - 100 + textWidth("Next") + 10, h - 30);
-      text("Next", w - 100, h - 2*normalFontSize);
+      image(nextArrow, w - 100, h - 30);
+      text("Next", w - 100 + 40, h - 2*normalFontSize);
     }
     if (startResult > 0) {
       fill(tabColor2); 
-      image(prevArrow, 20 + textWidth("Previous"), h - 30);
-      text("Previous", 10, h -  2*normalFontSize);
+      image(prevArrow, 10, h - 30);
+      text("Previous", 40, h -  2*normalFontSize);
     }
 
     textFont(f2);
   }
-  
+
   boolean contentClicked(float lx, float ly)
   {
-    
-     if((lx >= w - 100 && lx <= w - 100 + textWidth("Next") && ly >= h - 2*normalFontSize && ly <= h) || 
-         (lx >= w - 100 + textWidth("Next") + 10 && lx <= w - 100 + textWidth("Next") + 10 + 30 && ly >= h - 30 && ly <= h)){ // Click on Next 
-        startResult = constrain(startResult+numBoxes,0,searchResults.size()-1);
-        endResult = constrain(endResult+numBoxes, numBoxes,searchResults.size()-1);
-      } 
-    
-    if((lx >= 10 && lx <= textWidth("Previous") + 10 && ly >= h -  2*normalFontSize && ly <= h) ||
-     (lx >= 20 + textWidth("Previous") && lx <= 20 + textWidth("Previous")+30 && ly >= h - 30 && ly <= h)){
-        startResult = constrain(startResult-numBoxes,0,searchResults.size()-1);
-        endResult = constrain(endResult-numBoxes, numBoxes,searchResults.size()-1);
-     }
 
-     return true;
+    if ((lx >= w - 100 && lx <= w - 100 + textWidth("Next") && ly >= h - 2*normalFontSize && ly <= h) || 
+      (lx >= w - 100 + textWidth("Next") + 10 && lx <= w - 100 + textWidth("Next") + 10 + 30 && ly >= h - 30 && ly <= h)) { // Click on Next 
+      startResult = constrain(startResult+numBoxes, 0, searchResults.size()-1);
+      endResult = constrain(endResult+numBoxes, numBoxes, searchResults.size()-1);
+    } 
+
+    if ((lx >= 10 && lx <= 30 + 10 && ly >= h -  2*normalFontSize && ly <= h) ||
+      (lx >= 40 && lx <= 40 + textWidth("Previous") && ly >= h - 30 && ly <= h)) {
+      startResult = constrain(startResult-numBoxes, 0, searchResults.size()-1);
+      endResult = constrain(endResult-numBoxes, numBoxes, searchResults.size()-1);
+    }
+
+    return true;
   }
-  
-  boolean keypressed() {
+
+boolean keypressed() {
 
     if (myTextfield.isFocus()) {
       if (key != CODED && key == '\b' && searching.length()>0) {
@@ -154,30 +154,28 @@ class SearchView extends View {
 
   boolean contentPressed(float lx, float ly)
   {
-       if (lx >= 0 && lx <= w  && ly >= boxStart  && ly <= boxStart +((numBoxes+2)*boxStart) && dragged.equals("")) {
-        stringSelected = ((int)ly + boxStart)/30;
-        stringSelected = stringSelected-2+startResult;
-         System.out.println(stringSelected);
-       }
-       return true;
+    if (lx >= 0 && lx <= w  && ly >= boxStart  && ly <= boxStart +((numBoxes+2)*boxStart) && dragged.equals("")) {
+      stringSelected = ((int)ly + boxStart)/30;
+      stringSelected = stringSelected-2+startResult;
+      System.out.println(stringSelected);
+    }
+    return true;
   }
-    
+
   boolean contentDragged(float lx, float ly) {
     handleMouse( lx, ly);
     return true;
   }
-  
+
   void handleMouse(float lx, float ly) {
-     System.out.println(lx +" "+ly );
+    System.out.println(lx +" "+ly );
     if (dragged.equals("") && stringSelected != -1) {  
       draggingContent = true;
       if (stringSelected <= endResult && stringSelected >= startResult && stringSelected <searchResults.size()) {
         dragged = bandNames.get(Integer.parseInt(searchResults.get(stringSelected)));
         draggedIndex = stringSelected;
       }
-     
     }
   }
-  
 }
 

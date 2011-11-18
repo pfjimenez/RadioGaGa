@@ -1,11 +1,10 @@
 class TabView extends View {
-
-
   public int view = 1; // this variable is used to know in which tap is selected. 
   public float[] tabLeft, tabRight;
   public float tabTop, tabBottom;
   public float tabPad = 20;
   //public ArrayList<Track> searchResults;
+  
   TabView(float x_, float y_, float w_, float h_)
   {
     super(x_, y_, w_, h_);
@@ -93,7 +92,19 @@ class TabView extends View {
         if (!mainView.subviews.contains(genderScroll))mainView.subviews.add(genderScroll);
         if (!mainView.subviews.contains(regionScroll)) mainView.subviews.add(regionScroll);
         if (!mainView.subviews.contains(menuView))mainView.subviews.add(menuView);
-       
+        if (menuView.all.value) {
+          int x2 = 70;
+          int y2 = 0;
+          startEntry = 0;
+          endEntry = 8;
+          
+          for (int j = startEntry ; j <= endEntry;j++) {
+            Entry e = new Entry((float)x2, (float)y2, (float)50, graphView.h, j);
+            if (!graphView.subviews.contains(e))graphView.subviews.add( e );
+            x2+=90;
+          }
+          
+        }
         break;
       case 3:  
         if (mainView.subviews.contains(graphView)) mainView.subviews.remove(graphView);
@@ -113,11 +124,6 @@ class TabView extends View {
     } 
 
     return true;
-<<<<<<< HEAD
-  
-=======
-  }
-
->>>>>>> parent of ef4fb8b... Updates
+}
 }
 
