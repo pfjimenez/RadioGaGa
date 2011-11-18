@@ -15,7 +15,7 @@ class ScrollMenu extends View {
     translate(this.x, this.y);
     // draw out content, then our subviews on top
     //    drawContent();
-    fill(0, 150);
+    fill(0, 200);
     rect(0, head.value, w, openedHeight);
    if(expanded){
      if(subviews.size()>0){
@@ -119,13 +119,13 @@ class ScrollMenu extends View {
   boolean contentPressed(float lx, float ly) {
   //  System.out.println("Hey in here "+x+"  BUT "+ lx);
     if (expanded) {
-      if (lx >= 0  && lx <= w && ly >= -5 && ly <= smallHeight) { 
+      if (lx >= 0  && lx <= w && ly >= -20 && ly <= smallHeight+10) { 
         expanded = !expanded;
         head.target(openedHeight);
       }
     }
     else {
-      if (lx >= 0 && lx <= w && ly >= openedHeight-5 && ly <= openedHeight+smallHeight) { 
+      if (lx >= 0 && lx <= w && ly >= openedHeight-10 && ly <= openedHeight+smallHeight+10) { 
         expanded = !expanded;
         head.target(0);
       }
