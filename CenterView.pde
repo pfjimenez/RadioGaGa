@@ -1,7 +1,6 @@
 // This class is used to draw the Center View for Graph View
 class CenterView extends View {
-  public String currentlyViewing = "";
-  public int currentIndex = -1;
+
 
   CenterView(float x_, float y_, float w_, float h_)
   {
@@ -32,23 +31,6 @@ class CenterView extends View {
   boolean contentPressed(float lx, float ly) {
     return false;
   }
-  boolean mouseReleased(int posX, int posY) {
-
-    if (posX >= x && posX <= x+w && posY >= y && posY <= y+h) {
-      if (searchView.draggedIndex != -1) {
-
-        currentlyViewing = searchView.dragged;
-        //System.out.println("Currently Viewing "+ currentlyViewing);
-        currentIndex = searchView.draggedIndex;
-        searchView.draggedIndex = -1;
-        searchView.dragged = "";
-      }
-      return true;
-    }
-    searchView.draggedIndex = -1;
-    searchView.dragged = "";
-
-    return false;
-  }
+  
 }
 

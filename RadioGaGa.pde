@@ -11,6 +11,7 @@ import de.umass.lastfm.*;
 public PApplet papplet;
 public PFont font;
 public color backgroundColor = 255;
+public color textColor = 0;
 public color textColor2 = 255;
 public color textColor1 = #9370db;
 public color tabColor2 = #9370db;
@@ -21,11 +22,11 @@ public color menuColor1 = #483D8B;
 public color draggableContentBoxColor= #CCCCFF;
 public PFont f2, fbold;
 public PImage nextArrow, prevArrow;
-//color viewBackgroundColor = #2D2A36;
-//color infoBoxBackground = #000000;
+public color viewBackgroundColor = 255;
+public color infoBoxBackground = #000000;
 public Integrator genderic;
 
-public int normalFontSize = 16;
+public int normalFontSize = 14;
 public int smallFontSize = 12 ;
 public int largeFontSize = 20;
 public ControlP5 controlP5;
@@ -36,13 +37,10 @@ public CenterView graphView;
 public MenuView menuView;
 
 public Collection<Track> topTracks;
-
-public int circlesOnScreen;
-public int maxNumOfCircles; // max number of circles (characters) that will be drawn.
-public int valuesTotal = 0;
-//public Ball[] balls = new Ball[0];
 public SearchView searchView;
-public BubbleView bubbleView;
+public RelationshipsView relationshipsView;
+public int mainNodeRG = 1;
+
 /*
    <artist band name> <tab> <number of view by users> <tab> <number of male listening> <number of female listening> <tab> <ages of users listening> <tan> <region of where it was listened>
  */
@@ -54,6 +52,10 @@ public ArrayList<String[]> ages = new ArrayList<String[]>();
 //<0-9 age></t><10-19></t><20-29></t><30-39></t><40-49></t><50-59></t><60+>
 public ArrayList<String[]> locations = new ArrayList<String[]>();
 //<africa></t><asia></t><europe></t><australia></t><caribbean></t><middleEast></t><northAmerica></t><southAmerica>
+
+public int maxListeners = 1;
+public int minListeners = 1;
+
 
 // Changing lalalala
 public boolean maleChecked = true;
@@ -93,10 +95,15 @@ public Checkbox showMiddleEast;
 public PImage checkboxChecked ;
 public ScrollMenu regionScroll;
 public PImage checkboxUnchecked;
+
+public boolean draggingContent = false;
+public String currentlyViewing = "";
+public int currentIndex = -1;
+  
+int mainRNIndex = 0;
 // public PImage checkboxChecked2 = loadImage("checkbox_checked.png");
 
 //  public PImage checkboxUnchecked2 = loadImage("checkbox_unchecked.png");
-
 
 public void setup()
 {
@@ -116,23 +123,26 @@ public void setup()
   // String key = "b25b959554ed76058ac220b7b2e0a026"; //this is the key used in the last.fm API examples online.
 
   //topTracks = Artist.getTopTracks("Depeche Mode", key);
-
-
   smooth();
 
-  viewTabs = new TabView(10, 10, 500, 500);
+  loadData();
+
+  viewTabs = new TabView(10, 10, 500, 30);
   mainView.subviews.add(viewTabs);
   controlP5 = new ControlP5(this);
-
+  
+  relationshipsView = new RelationshipsView(10, 40, 900, 600);
+  mainView.subviews.add(relationshipsView);
+  
   graphView  = new CenterView(10, 30, 900, 580);
-  searchView = new SearchView(920, 20, 175, 600);
-  bubbleView = new BubbleView(100, 30, 900, 600);
-  mainView.subviews.add(bubbleView);
-
+  
+  searchView = new SearchView(920, 10, 250, 630);
+  mainView.subviews.add(searchView);
+  
   nextArrow = loadImage("Next.png");
-  nextArrow.resize(0, 40);
+  nextArrow.resize(0, 30);
   prevArrow = loadImage("Previous.png"); 
-  prevArrow.resize(0, 40);
+  prevArrow.resize(0, 30);
 
   menuView = new MenuView(50, 635, 800, 20);
   gendersChecked = menuView.byGender.value;
@@ -146,21 +156,7 @@ public void setup()
   /*
    artist band name> <tab> <number of view by users> <tab> <number of male listening> <number of female listening> <tab> <ages of users listening> <tan> <region of where it was listened>
    */
-  // Setting up the static data that we have and are gonna use except when live data is needed
-  String[] rowsin = loadStrings("output6.txt"); 
-  int rowsinno = rowsin.length;
-  for (int i = 0; i< rowsinno; i++) {
-    String []tokens = rowsin[i].split("\t");
-    bandNames.add(tokens[0]);
-    //System.out.println(tokens[0]);
-    listeners.add(tokens[1]);
-    males.add(tokens[2]);
-    females.add(tokens[3]);
-    String[] tokens2 = tokens[4].split(" ");
-    String[] tokens3 = tokens[5].split(" ");
-    ages.add(tokens2);
-    locations.add(tokens3);
-  }
+  
   showMales = new Checkbox((float)10, (float)20, 25, 25, checkboxChecked, checkboxUnchecked, "Males", true);
   showFemales = new Checkbox((float)10, (float)60, 25, 25, checkboxChecked, checkboxUnchecked, "Females", true);
   showAfrica  = new Checkbox((float)10, (float)20, 25, 25, checkboxChecked, checkboxUnchecked, "Africa", true);
@@ -170,7 +166,7 @@ public void setup()
   showSouthAmerica = new Checkbox((float)10, (float)100, 25, 25, checkboxChecked, checkboxUnchecked, "South America", true);
   showAustralia = new Checkbox((float)10, (float)120, 25, 25, checkboxChecked, checkboxUnchecked, "Australia", true);
   showCarribean = new Checkbox((float)10, (float)140, 25, 25, checkboxChecked, checkboxUnchecked, "Carribean", true);
- showMiddleEast= new Checkbox((float)10, (float)160, 25, 25, checkboxChecked, checkboxUnchecked, "Middle East", true);
+  showMiddleEast= new Checkbox((float)10, (float)160, 25, 25, checkboxChecked, checkboxUnchecked, "Middle East", true);
   
    if (!genderScroll.subviews.contains(showMales)) genderScroll.subviews.add(showMales);
         if (!genderScroll.subviews.contains(showFemales)) genderScroll.subviews.add(showFemales);
@@ -184,13 +180,14 @@ public void setup()
         if (!regionScroll.subviews.contains(showMiddleEast))regionScroll.subviews.add(showMiddleEast);
        
 }
+
 public void draw()
 {
-  background(backgroundColor, 200); 
+  background(backgroundColor); 
   mainView.draw();
- //genderic.update();
+
   drawDraggableBox();
-  }
+}
 
 
 void mousePressed()
@@ -207,8 +204,10 @@ void mouseDragged()
 
 void mouseClicked()
 {
-  // println("Clicked in " +newcheckbox.title + " " + newcheckbox.value );
+ // println("Clicked in ");
   mainView.mouseClicked(mouseX, mouseY);
+ // println("Clicked in 2");
+  /*
   // println("Clicked in new  " +newcheckbox.title + " " + newcheckbox.value );
   gendersChecked = menuView.byGender.value;
   maleChecked = showMales.value;
@@ -226,22 +225,18 @@ void mouseClicked()
    middleEastChecked = showMiddleEast.value;
    northAmericaChecked = showNorthAmerica.value;
    southAmericaChecked = showSouthAmerica.value;
-   carribeanChecked = showCarribean.value;
+   carribeanChecked = showCarribean.value;*/
 } 
 void keyPressed() {
   //System.out.println("Here!");
   //System.out.println(mainView.keypressed());
   mainView.keypressed();
 }
-void mouseReleased() {
-  mainView.mouseReleased(mouseX, mouseY);
-}
+
 void drawDraggableBox() {
 
-  if (!mainView.subviews.contains(searchView))
-    searchView.myTextfield.hide();
   if (searchView.draggedIndex != -1) {
-    //   System.out.println("Drawing Dragged");
+    rectMode(CORNERS);
     fill(tabColor2, 100);
     strokeWeight(1);
     rect(mouseX-10, mouseY-10, mouseX+203, mouseY+15);
@@ -258,3 +253,20 @@ void drawDraggableBox() {
   }
 }
 
+void mouseReleased() {
+  println("release");
+   if (draggingContent){
+      if (mouseX >= 10 && mouseX <= 10 + 900 && mouseY >= 40 && mouseY <= 40 + 600) { // Inside the rectangule view.
+        if (searchView.draggedIndex != -1) {
+          println("entro");
+          currentlyViewing = searchView.dragged;
+          //System.out.println("Currently Viewing "+ currentlyViewing);
+          currentIndex = searchView.draggedIndex;
+          searchView.draggedIndex = -1;
+          searchView.dragged = "";
+        }
+      }
+      searchView.draggedIndex = -1;
+      searchView.dragged = "";
+    }
+  }

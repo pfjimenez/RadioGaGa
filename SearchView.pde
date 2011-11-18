@@ -9,10 +9,14 @@ class SearchView extends View {
   public Textfield myTextfield;
   public String searching = "";
   public int startResult = 0;
-  public int endResult = 16;
+  public int endResult = 18;
+  public int numBoxes = 18;
+  public int stringSelected = -1;
   public ArrayList<String> searchResults;
   public  String dragged = "";
   public int draggedIndex = -1;
+  
+  int boxStart = 30;
   
   SearchView(float x_, float y_, float w_, float h_)
   {
@@ -22,8 +26,28 @@ class SearchView extends View {
     strokeWeight(2);
     controlP5.setColorActive(tabColor2);
 
-    myTextfield = controlP5.addTextfield("", 
-    (int)x_, (int)y_, 250, 30);
+    myTextfield = controlP5.addTextfield("", int(x), int(y), int(w), 30);
+    myTextfield.valueLabel().setFont(ControlP5.grixel);
+    myTextfield.setFocus(false);
+    searchResults = new ArrayList<String>();
+    for (int i = 0; i< bandNames.size(); i++) {
+      searchResults.add(""+i);
+    }
+    endResult = numBoxes;
+    //System.out.println(searchResults.size());
+  }
+
+  SearchView(float x_, float y_, float w_, float h_,int numBoxes_)
+  {
+    super(x_, y_, w_, h_);
+    numBoxes = numBoxes_;
+    endResult = numBoxes;
+    // Searchbox Setting up
+    controlP5.setColorBackground(0);
+    strokeWeight(2);
+    controlP5.setColorActive(tabColor2);
+
+    myTextfield = controlP5.addTextfield("", int(x), int(y), int(w), 30);
     myTextfield.valueLabel().setFont(ControlP5.grixel);
     myTextfield.setFocus(false);
     searchResults = new ArrayList<String>();
@@ -33,23 +57,20 @@ class SearchView extends View {
     //System.out.println(searchResults.size());
   }
 
-
   void drawContent()
   {
-    if (!mainView.subviews.contains(searchView))
-      return;
-    //rectMode(CORNERS);
+    rectMode(CORNER);
+    strokeWeight(1);
+    stroke(tabColor2);
     fill(draggableContentBoxColor);
     textAlign(CENTER);
-    rect(0, 40, 275, 600); 
+    rect(0, 0, w, h); 
     textFont(fbold);
     textSize(22);
-    int y2 = 40;
+    int y2 = boxStart;
     for (int i = startResult; i< searchResults.size() && i<= endResult; i++) {
-      strokeWeight(1);
-      stroke(tabColor2);
       fill(draggableContentBoxColor, 100);
-      rect(0, y2, 275, y2+30 );
+      rect(0, y2, w, 30 );
       fill(menuColor1);
       //   fill(textColor1);
       //textFont(fbold);
@@ -59,32 +80,43 @@ class SearchView extends View {
       if (t.length()>25)
         t = t.substring(0, 26)+"...";
       //  System.out.println(t);
-      text(t, 130, y2+20);
+      text(t, w/2, y2+20);
       y2 = y2 + 30;
     } 
+    textAlign(LEFT,TOP);
+    textSize(largeFontSize);
     if (endResult < searchResults.size()-1) {
       fill(tabColor2);  
-      image(nextArrow, 230, h - 45);
-      textSize(20);
-      text("Next", 200, h - 15);
+      image(nextArrow, w - 100 + textWidth("Next") + 10, h - 30);
+      text("Next", w - 100, h - 2*normalFontSize);
     }
     if (startResult > 0) {
       fill(tabColor2); 
-      textSize(20); 
-      image(prevArrow, 5, h - 45);
-      text("Previous", 90, h - 15);
+      image(prevArrow, 20 + textWidth("Previous"), h - 30);
+      text("Previous", 10, h -  2*normalFontSize);
     }
 
     textFont(f2);
   }
+  
   boolean contentClicked(float lx, float ly)
   {
-//System.out.println(lx +" "+ly);
-    return true;
+    
+     if((lx >= w - 100 && lx <= w - 100 + textWidth("Next") && ly >= h - 2*normalFontSize && ly <= h) || 
+         (lx >= w - 100 + textWidth("Next") + 10 && lx <= w - 100 + textWidth("Next") + 10 + 30 && ly >= h - 30 && ly <= h)){ // Click on Next 
+        startResult = constrain(startResult+numBoxes,0,searchResults.size()-1);
+        endResult = constrain(endResult+numBoxes, numBoxes,searchResults.size()-1);
+      } 
+    
+    if((lx >= 10 && lx <= textWidth("Previous") + 10 && ly >= h -  2*normalFontSize && ly <= h) ||
+     (lx >= 20 + textWidth("Previous") && lx <= 20 + textWidth("Previous")+30 && ly >= h - 30 && ly <= h)){
+        startResult = constrain(startResult-numBoxes,0,searchResults.size()-1);
+        endResult = constrain(endResult-numBoxes, numBoxes,searchResults.size()-1);
+     }
+
+     return true;
   }
-  boolean contentPressed(float lx, float ly) {
-    return true;
-  }
+  
   boolean keypressed() {
 
     if (myTextfield.isFocus()) {
@@ -120,52 +152,32 @@ class SearchView extends View {
     return myTextfield.isFocus();
   }
 
-  boolean mouseDragged(float lx, float ly) {
-    // rect(0, 40, 275, 600); 
-    //System.out.println("Dragging");
-    return handleMouse( lx, ly);
+  boolean contentPressed(float lx, float ly)
+  {
+       if (lx >= 0 && lx <= w  && ly >= boxStart  && ly <= boxStart +((numBoxes+2)*boxStart) && dragged.equals("")) {
+        stringSelected = ((int)ly + boxStart)/30;
+        stringSelected = stringSelected-2+startResult;
+         System.out.println(stringSelected);
+       }
+       return true;
   }
-  boolean handleMouse(float lx, float ly) {
-    if (lx >= x && lx <= x+w && ly >= y+30  && ly <= y+h && dragged.equals("")) {
-      int stringSelected = (int)ly - 40;
-      stringSelected = stringSelected/30;
-      stringSelected = stringSelected-1+startResult;
+    
+  boolean contentDragged(float lx, float ly) {
+    handleMouse( lx, ly);
+    return true;
+  }
+  
+  void handleMouse(float lx, float ly) {
+     System.out.println(lx +" "+ly );
+    if (dragged.equals("") && stringSelected != -1) {  
+      draggingContent = true;
       if (stringSelected <= endResult && stringSelected >= startResult && stringSelected <searchResults.size()) {
         dragged = bandNames.get(Integer.parseInt(searchResults.get(stringSelected)));
         draggedIndex = stringSelected;
       }
-      return true;
+     
     }
-    else {
-      return false;
-    }
-  }
-  boolean mousePressed(float lx, float ly){
-  System.out.println(lx +" "+ly );
-  if(lx >= 1156 && lx <= 1184 && ly >= 580 && ly <= 605){
-   /*
-   startResult = 0;
-  public int endResult = 16;
-  */ 
-    if(endResult+1 < searchResults.size()){
-    startResult = endResult+1;
-    endResult = endResult+17;
-    if(endResult >= searchResults.size())
-    endResult = searchResults.size()-1;
-    }
-    
-    
-  }
-  if(lx >= 925 && lx <= 960 && ly >= 580 && ly <= 610){
-  if(startResult - 1 >=0){
-  endResult = startResult - 1;
-  startResult = startResult -  17;
-  if(startResult<0)
-  startResult = 0;
   }
   
-  }
-  return true;  
-}
 }
 
