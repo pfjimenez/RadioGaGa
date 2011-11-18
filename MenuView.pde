@@ -19,7 +19,7 @@ class MenuView extends View {
     byRegion = new Checkbox((float)330, (float)5, 25, 25, "By Region  ", regionChecked, '1');
     byAge = new Checkbox((float)530, (float)5, 25, 25, "By Age     ", ageChecked, '1');
     all = new Checkbox((float)760, (float)5, 25, 25, "All              ", allChecked, '1');
-    customize = new Checkbox((float)850, (float)5, 25, 25, "Customize   ", customizeChecked, '1');
+    customize = new Checkbox((float)850, (float)5, 25, 25, "Chosen   ", customizeChecked, '1');
     this.subviews.add(byGender);    
     this.subviews.add(byRegion);
     this.subviews.add(byAge);
@@ -121,7 +121,16 @@ class MenuView extends View {
             x2+=90;
           }
         }
+      if(customize.value){
+        
+ integrators = new ArrayList<Integrator>(); 
+            graphView.subviews = new ArrayList<View>();
+      for(int j = 0 ; j< graphView.entryViewing.size(); j++){
       
+        
+        
+      }
+      }
 
       return true;
     }

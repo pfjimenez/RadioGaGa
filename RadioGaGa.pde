@@ -143,6 +143,10 @@ public int endEntry = 8;
 // 70 - 79 used for middle east, unspecified age
 // 80 - 89 used for unspecified region
 public ArrayList<Integrator> integrators = new ArrayList<Integrator>();
+public int maxAll= 31000000;
+public int maxGender = 72000;
+public int maxRegion = 80000;
+public int maxAge =65000;
 
 public void setup()
 {
@@ -182,7 +186,7 @@ public void setup()
   mainView.subviews.add(viewTabs);
   controlP5 = new ControlP5(this);
 
-  graphView  = new CenterView(10, 50, 900, 550);
+  graphView  = new CenterView(10, 50, 900, 450);
   searchView = new SearchView(920, 20, 175, 600);
   bubbleView = new BubbleView(100, 30, 900, 600);
   mainView.subviews.add(bubbleView);
@@ -205,7 +209,7 @@ public void setup()
    artist band name> <tab> <number of view by users> <tab> <number of male listening> <number of female listening> <tab> <ages of users listening> <tan> <region of where it was listened>
    */
   // Setting up the static data that we have and are gonna use except when live data is needed
-  String[] rowsin = loadStrings("output1.txt"); 
+  String[] rowsin = loadStrings("sortParsedOutput.txt"); 
   int rowsinno = rowsin.length;
   for (int i = 0; i< rowsinno; i++) {
     String []tokens = rowsin[i].split("\t");
@@ -251,7 +255,7 @@ public void setup()
         if (!regionScroll.subviews.contains(showAustralia))regionScroll.subviews.add(showAustralia);
         if (!regionScroll.subviews.contains(showCarribean))regionScroll.subviews.add(showCarribean);
         if (!regionScroll.subviews.contains(showMiddleEast))regionScroll.subviews.add(showMiddleEast);
-        if (!regionScroll.subviews.contains(showUnknownRegion))regionScroll.subviews.add(showUnknownRegion);
+    //    if (!regionScroll.subviews.contains(showUnknownRegion))regionScroll.subviews.add(showUnknownRegion);
         
         ageScroll.subviews.add(showNineYrs);  
         ageScroll.subviews.add(showNineteenYrs);
@@ -260,22 +264,22 @@ public void setup()
         ageScroll.subviews.add(showFortyNineYrs);
         ageScroll.subviews.add(showFiftyNineYrs);
         ageScroll.subviews.add(showSixtyOrMoreYrs);
-        ageScroll.subviews.add(showUnknownAge);
+    //    ageScroll.subviews.add(showUnknownAge);
         
        // minl = Integer.parseInt(locations.get(0)[0]);
        // maxl = Integer.parseInt(locations.get(0)[0]);
-  /*      int maxIndex = 0;
-        for(int j = 0; j < locations.get(0).length;j++){
-        minl = minl+Integer.parseInt(locations.get(0)[j]);
-        maxl = maxl+Integer.parseInt(locations.get(0)[j]);
+   /*     int maxIndex = 0;
+        for(int j = 0; j < ages.get(0).length;j++){
+        minl = minl+Integer.parseInt(ages.get(0)[j]);
+        maxl = maxl+Integer.parseInt(ages.get(0)[j]);
         }
         
-        for(int i = 1 ; i< locations.size();i++){
+        for(int i = 1 ; i< ages.size();i++){
       int l=0;
 /// 
-for(int j = 0; j < locations.get(i).length;j++){
+for(int j = 0; j < ages.get(i).length;j++){
      //       if(j != 4 && j != 5){
-      l = l+Integer.parseInt(locations.get(i)[j]);
+      l = l+Integer.parseInt(ages.get(i)[j]);
       }
   //l = Integer.parseInt(locations.get(i)[0]);  
         if(l>maxl){
@@ -285,9 +289,25 @@ for(int j = 0; j < locations.get(i).length;j++){
         if(l<minl)
         minl = l;         //}
   //      }
-        }*/
-        //System.out.println("Maximum Listeners: "+maxl+"@ Index = "+maxIndex+ "\nMinimum Listeners: "+minl);
-        
+        }
+        System.out.println("Maximum Listeners: "+maxl+"@ Index = "+maxIndex+ "\nMinimum Listeners: "+minl);
+     */
+     /*
+  minl = Integer.parseInt(males.get(0))+Integer.parseInt(females.get(0));
+  maxl = Integer.parseInt(males.get(0))+Integer.parseInt(females.get(0));
+  int maxIndex = 0; 
+  for(int i = 1; i< males.size();i++){
+ int l =  Integer.parseInt(males.get(i))+Integer.parseInt(females.get(i));
+      if(l>maxl){
+        maxl = l;
+        maxIndex= i;
+        }
+        if(l<minl)
+        minl = l;         //}
+  //      }
+  }
+   System.out.println("Maximum Listeners: "+maxl+"@ Index = "+maxIndex+ "\nMinimum Listeners: "+minl);
+   */
   for(int i = 0 ; i< 90; i++){
   Integrator temp = new Integrator(graphView.h);
   integrators.add(temp);
@@ -354,13 +374,13 @@ void mouseClicked()
 {
   mainView.mouseClicked(mouseX, mouseY);
  
-  maleChecked = showMales.value;
-  femaleChecked = showFemales.value;
-  unknownGenderChecked = showUnknownGender.value;
+   maleChecked = showMales.value;
+   femaleChecked = showFemales.value;
+   unknownGenderChecked = showUnknownGender.value;
 
-  genderExpand = genderScroll.expanded;
-  regionExpand = regionScroll.expanded;
-  ageExpand = ageScroll.expanded;
+   genderExpand = genderScroll.expanded;
+   regionExpand = regionScroll.expanded;
+   ageExpand = ageScroll.expanded;
 
    africaChecked = showAfrica.value;
    asiaChecked  = showAsia.value;

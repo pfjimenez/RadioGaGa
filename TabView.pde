@@ -89,8 +89,8 @@ class TabView extends View {
         if (mainView.subviews.contains(searchView)) mainView.subviews.remove(searchView);
         searchView.dragged= "";
         searchView.draggedIndex = -1; 
-        graphView.currentIndex = -1; 
-        graphView.currentlyViewing = ""; 
+        graphView.entryIndex = new ArrayList<String>();
+        graphView.entryViewing = new ArrayList<String>(); 
         if (!mainView.subviews.contains(bubbleView))mainView.subviews.add(bubbleView); 
         if (mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
         if (mainView.subviews.contains(genderScroll))mainView.subviews.remove(genderScroll);
@@ -135,8 +135,8 @@ class TabView extends View {
         if (mainView.subviews.contains(searchView)) mainView.subviews.remove(searchView);
         searchView.dragged= ""; 
         searchView.draggedIndex = -1; 
-        graphView.currentIndex = -1; 
-        graphView.currentlyViewing = "";
+        graphView.entryIndex = new ArrayList<String>();
+        graphView.entryViewing = new ArrayList<String>(); 
         if (mainView.subviews.contains(bubbleView)) mainView.subviews.remove(bubbleView); 
         if (mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
         if (mainView.subviews.contains(genderScroll))mainView.subviews.remove(genderScroll);
@@ -150,8 +150,8 @@ class TabView extends View {
         if (mainView.subviews.contains(searchView)) mainView.subviews.remove(searchView);
         searchView.dragged= ""; 
         searchView.draggedIndex = -1; 
-        graphView.currentIndex = -1; 
-        graphView.currentlyViewing = "";
+        graphView.entryIndex = new ArrayList<String>();
+        graphView.entryViewing = new ArrayList<String>(); 
         if (mainView.subviews.contains(bubbleView)) mainView.subviews.remove(bubbleView); 
         if (mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
         if (mainView.subviews.contains(genderScroll))mainView.subviews.remove(genderScroll);
