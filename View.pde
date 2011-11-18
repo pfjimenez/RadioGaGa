@@ -1,7 +1,7 @@
 class View {
   float x, y, w, h;
   ArrayList subviews;
-
+  
   View(float x_, float y_, float w_, float h_)
   {
     x = x_;
@@ -10,7 +10,7 @@ class View {
     h = h_;
     subviews = new ArrayList();
   }
-
+  
   void draw()
   {
     pushMatrix();
@@ -23,34 +23,33 @@ class View {
     }
     popMatrix();
   }
-
+  
   void drawContent()
   {
     // override this
     // when this is called, the coordinate system is local to the view,
     // i.e. 0,0 is the top left corner of this view
   }
-
+  
   boolean contentPressed(float lx, float ly)
   {
     // override this
     // lx, ly are in the local coordinate system of the view,
     // i.e. 0,0 is the top left corner of this view
     // return false if the click is to "pass through" this view
-   // System.out.println("Here");
     return true;
   }
-
+  
   boolean contentDragged(float lx, float ly)
   {
     return true;
   }
-
+  
   boolean contentClicked(float lx, float ly)
   {
     return true;
   }
-
+  
   boolean contentMouseWheel(float lx, float ly, int delta)
   {
     return false;
@@ -63,23 +62,15 @@ class View {
 
   boolean mousePressed(float px, float py)
   {
-    int j = 0;
- // System.out.println(j);
     if (!ptInRect(px, py, x, y, w, h)) return false;
- // System.out.println(j+1);
-  
     float lx = px - x;
     float ly = py - y;
-  //System.out.println(j+2);
-  
+    // check our subviews first
     for (int i = subviews.size()-1; i >= 0; i--) {
-   //   System.out.println(j+3+i);
-  
       View v = (View)subviews.get(i);
-        if (v.mousePressed(lx, ly)) return true;
+      if (v.mousePressed(lx, ly)) return true;
     }
-
-      return contentPressed(lx, ly);
+    return contentPressed(lx, ly);
   }
 
   boolean mouseDragged(float px, float py)
@@ -97,21 +88,17 @@ class View {
 
   boolean mouseClicked(float px, float py)
   {
-   // System.out.println(px + " "+ py);
-
     if (!ptInRect(px, py, x, y, w, h)) return false;
     float lx = px - x;
     float ly = py - y;
     // check our subviews first
     for (int i = subviews.size()-1; i >= 0; i--) {
-     // System.out.println(i);
-
       View v = (View)subviews.get(i);
       if (v.mouseClicked(lx, ly)) return true;
     }
     return contentClicked(lx, ly);
   }
-
+  
   boolean mouseWheel(float px, float py, int delta)
   {
     if (!ptInRect(px, py, x, y, w, h)) return false;
@@ -126,29 +113,16 @@ class View {
   }
   
   boolean keypressed(){
-	char c = (char) key;  
+    char c = (char) key;  
     for (int i = subviews.size()-1; i >= 0; i--) {
      // System.out.println(i);
 
       View v = (View)subviews.get(i);
       if (v.keypressed()) return true;
     }
-return false;
+   return false;
 
   }
   
-  boolean mouseReleased(int xpos, int ypos){
-  if (!ptInRect(xpos, ypos, x, y, w, h)) return false;
-    float lx = xpos - x;
-    float ly = ypos - y;
-    // check our subviews first
-    for (int i = subviews.size()-1; i >= 0; i--) {
-     // System.out.println(i);
-
-      View v = (View)subviews.get(i);
-      if (v.mouseReleased((int)lx, (int)ly)) return true;
-    }
-  return false;  
-  }
 }
 

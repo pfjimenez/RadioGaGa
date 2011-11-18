@@ -1,5 +1,4 @@
 
-
 class BasicMenuView extends View {
 
  
@@ -155,7 +154,7 @@ else
   {
     
    // System.out.println("Content Clicked Filter: "+lx + " , "+ly);
-   /* 
+   /*
     if(lx >= 102 && lx <= 122 && ly >= 0 && ly <= 20 ){
       
      // System.out.println(gendersChecked);

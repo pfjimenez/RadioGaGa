@@ -11,6 +11,7 @@ import de.umass.lastfm.*;
 public PApplet papplet;
 public PFont font;
 public color backgroundColor = 255;
+public color textColor = 0;
 public color textColor2 = 255;
 public color textColor1 = #9370db;
 public color tabColor2 = #9370db;
@@ -21,26 +22,31 @@ public color menuColor1 = #483D8B;
 public color draggableContentBoxColor= #CCCCFF;
 public PFont f2, fbold;
 public PImage nextArrow, prevArrow;
+
+public color viewBackgroundColor = 255;
+public color infoBoxBackground = #000000;
+public Integrator genderic;
+
 public int maxl, minl;
 // Baby Blue, baby pink, pink, Darker blue, Dark green, green, Orange, grey,pruple
 color[] barsColor = {
-  #C6E2FF, #FFC0CB, #EE799F,#87CEFA, #2E8B57,#BCEE68,#FFA54F,#CFCFCF,#AB82FF
+  #C6E2FF, #FFC0CB, #EE799F, #87CEFA, #2E8B57, #BCEE68, #FFA54F, #CFCFCF, #AB82FF
 };
 
-
- PImage ppl;
-public int normalFontSize = 16;
+PImage ppl;
+public int normalFontSize = 14;
 public int smallFontSize = 12 ;
 public int largeFontSize = 20;
 public ControlP5 controlP5;
 
-// The different Views
 public View mainView;
 public TabView viewTabs;
 public CenterView graphView;
 public MenuView menuView;
 
 public Collection<Track> topTracks;
+public RelationshipsView relationshipsView;
+public int mainNodeRG = 1;
 
 // Used for Bubbles
 public int circlesOnScreen;
@@ -48,9 +54,9 @@ public int maxNumOfCircles; // max number of circles (characters) that will be d
 public int valuesTotal = 0;
 //public Ball[] balls = new Ball[0];
 public SearchView searchView;
-public BubbleView bubbleView;
 
 // Reading in singers and artists files
+
 /*
    <artist band name> <tab> <number of view by users> <tab> <number of male listening> <number of female listening> <tab> <ages of users listening> <tan> <region of where it was listened>
  */
@@ -62,6 +68,9 @@ public ArrayList<String[]> ages = new ArrayList<String[]>();
 //<0-9 age></t><10-19></t><20-29></t><30-39></t><40-49></t><50-59></t><60+>
 public ArrayList<String[]> locations = new ArrayList<String[]>();
 //<africa></t><asia></t><europe></t><australia></t><caribbean></t><middleEast></t><northAmerica></t><southAmerica>
+
+public int maxListeners = 1;
+public int minListeners = 1;
 
 // Changing Checkboxes and radioboxes
 public boolean gendersChecked = false;
@@ -122,14 +131,19 @@ public Checkbox showSouthAmerica;
 public Checkbox showCarribean;
 public Checkbox showMiddleEast;
 public Checkbox showUnknownRegion;
-public ScrollMenu regionScroll;
 
 public PImage checkboxChecked ;
+public ScrollMenu regionScroll;
 public PImage checkboxUnchecked;
 
-// Variables used for the graphs
-public int startEntry = 0;
-public int endEntry = 8;
+public boolean draggingContent = false;
+public String currentlyViewing = "";
+public int currentIndex = -1;
+
+int mainRNIndex = 0;
+// public PImage checkboxChecked2 = loadImage("checkbox_checked.png");
+
+//  public PImage checkboxUnchecked2 = loadImage("checkbox_unchecked.png");
 
 // These integrators are used for plotting
 // Here're how they go:
@@ -143,6 +157,9 @@ public int endEntry = 8;
 // 70 - 79 used for middle east, unspecified age
 // 80 - 89 used for unspecified region
 public ArrayList<Integrator> integrators = new ArrayList<Integrator>();
+public int startEntry = 0;
+public int endEntry = 8;
+
 public int maxAll= 31000000;
 public int maxGender = 72000;
 public int maxRegion = 80000;
@@ -156,49 +173,45 @@ public void setup()
   checkboxChecked = loadImage("checkbox_checked.png");
 
   checkboxUnchecked = loadImage("checkbox_unchecked.png");
- // buttonCheck = loadImage("button-check.png");
- // buttonCross = loadImage("button-cross.png");
- // buttonCheck.resize(0,20);
- // buttonCross.resize(0,20);
 
   textFont(f2);
   papplet = this;
   mainView = new View(0, 0, width, height);
-  genderScroll = new ScrollMenu(150, 479, 190, 5, genderExpand, 140);
-  regionScroll = new ScrollMenu(350,260,190,5,regionExpand,360);
+  genderScroll = new ScrollMenu(150, 499, 190, 5, genderExpand, 120);
+  regionScroll = new ScrollMenu(370, 260, 190, 5, regionExpand, 360);
   ageScroll = new ScrollMenu(550,260,190,5,ageExpand,360);
   //  int i  = 0;
-   // String key = "b25b959554ed76058ac220b7b2e0a026"; //this is the key used in the last.fm API examples online.
+  // String key = "b25b959554ed76058ac220b7b2e0a026"; //this is the key used in the last.fm API examples online.
 
   //topTracks = Artist.getTopTracks("Depeche Mode", key);
-/*
-  PaginatedResult p = Artist.getImages("Depeche Mode", key);
-  Collection<Image> p2 = p.getPageResults();
-  Object[] ps = new Object[p2.size()];
-  ps = p2.toArray();
-  de.umass.lastfm.Image imagy = (de.umass.lastfm.Image)ps[1];
-  ppl = loadImage(imagy.getImageURL(ImageSize.LARGE),"png");
-*/
- // System.out.println(p.contains(""));
   smooth();
 
-  viewTabs = new TabView(10, 10, 500, 50);
+  loadData();
+
+  viewTabs = new TabView(10, 10, 500, 30);
   mainView.subviews.add(viewTabs);
+  relationshipsView = new RelationshipsView(10, 40, 900, 550);
+  mainView.subviews.add(relationshipsView);
   controlP5 = new ControlP5(this);
 
   graphView  = new CenterView(10, 50, 900, 450);
-  searchView = new SearchView(920, 20, 175, 600);
-  bubbleView = new BubbleView(100, 30, 900, 600);
-  mainView.subviews.add(bubbleView);
+  searchView = new SearchView(920, 10, 250, 580);
+  mainView.subviews.add(searchView);
 
   nextArrow = loadImage("Next.png");
-  nextArrow.resize(0, 40);
+  nextArrow.resize(0, 30);
   prevArrow = loadImage("Previous.png"); 
-  prevArrow.resize(0, 40);
+  prevArrow.resize(0, 30);
 
-  menuView = new MenuView(50, 635, 1000, 20);
+  menuView = new MenuView(50, 635, 800, 20);
   gendersChecked = menuView.byGender.value;
   regionChecked = menuView.byRegion.value;
+  
+  for(int i = 0 ; i< 90; i++){
+    Integrator temp = new Integrator(graphView.h);
+    integrators.add(temp);
+  }
+  
   /*
    for (Track track : topTracks) {
    i++;
@@ -208,22 +221,7 @@ public void setup()
   /*
    artist band name> <tab> <number of view by users> <tab> <number of male listening> <number of female listening> <tab> <ages of users listening> <tan> <region of where it was listened>
    */
-  // Setting up the static data that we have and are gonna use except when live data is needed
-  String[] rowsin = loadStrings("sortParsedOutput.txt"); 
-  int rowsinno = rowsin.length;
-  for (int i = 0; i< rowsinno; i++) {
-    String []tokens = rowsin[i].split("\t");
-    bandNames.add(tokens[0]);
-    //System.out.println(tokens[0]);
-    listeners.add(tokens[1]);
-    males.add(tokens[2]);
-    females.add(tokens[3]);
-    String[] tokens2 = tokens[4].split(" ");
-    String[] tokens3 = tokens[5].split(" ");
-    ages.add(tokens2);
-    locations.add(tokens3);
-  }
-  showMales = new Checkbox((float)10, (float)20, 25, 25, checkboxChecked, checkboxUnchecked, "Males", true);
+ showMales = new Checkbox((float)10, (float)20, 25, 25, checkboxChecked, checkboxUnchecked, "Males", true);
   showFemales = new Checkbox((float)10, (float)40, 25, 25, checkboxChecked, checkboxUnchecked, "Females", true);
   showUnknownGender = new Checkbox((float)10, (float)60, 25, 25, checkboxChecked, checkboxUnchecked, "Unspecified", true);
   showAfrica  = new Checkbox((float)10, (float)20, 25, 25, checkboxChecked, checkboxUnchecked, "Africa", true);
@@ -313,15 +311,17 @@ for(int j = 0; j < ages.get(i).length;j++){
   integrators.add(temp);
   }
 }
+
 public void draw()
 {
-  background(backgroundColor, 200); 
+  background(backgroundColor); 
   mainView.draw();
-  if(ppl != null)
-  image(ppl, 50,200);
- //genderic.update();
+
+  if (ppl != null)
+    image(ppl, 50, 200);
+  //genderic.update();
   drawDraggableBox();
-  }
+}
 
 
 void mousePressed()
@@ -333,55 +333,23 @@ void mousePressed()
 
 void mouseDragged()
 {
-  System.out.println(graphView.lastDrag);
-  if(viewTabs.view == 2 && graphView.lastDrag != -555){
-      if (mouseX < graphView.lastDrag &&  (graphView.lastDrag - mouseX)%10 ==0 && endEntry < bandNames.size()-1 && allChecked) {
-        startEntry+=1;
-        endEntry+=1;
-        graphView.subviews = new ArrayList<View>();
-        int x2 = 70;
-        int y2 = 0;
-        for (int j = startEntry ; j <= endEntry; j++) {
-          Entry e = new Entry((float)x2, (float)y2, (float)50, graphView.h, j);
-          graphView.subviews.add(e);
-          x2+=90;
-        }
-        graphView.lastDrag = mouseX;
-      }else{
-      if(mouseX > graphView.lastDrag && (mouseX-graphView.lastDrag)%10 ==0 && startEntry >0 && allChecked){
-        startEntry-=1;
-        endEntry-=1;
-        graphView.subviews = new ArrayList<View>();
-        int x2 = 70;
-        int y2 = 0;
-        for (int j = startEntry ; j <= endEntry; j++) {
-          Entry e = new Entry((float)x2, (float)y2, (float)50, graphView.h, j);
-          graphView.subviews.add(e);
-          x2+=90;
-        }
-        graphView.lastDrag = mouseX;
-      }
-      }
-    
-  
-  }
-  else{
   mainView.mouseDragged(mouseX, mouseY);
-  }
 }
 
 void mouseClicked()
 {
   mainView.mouseClicked(mouseX, mouseY);
  
+  // println("Clicked in new  " +newcheckbox.title + " " + newcheckbox.value );
+   gendersChecked = menuView.byGender.value;
    maleChecked = showMales.value;
    femaleChecked = showFemales.value;
-   unknownGenderChecked = showUnknownGender.value;
-
    genderExpand = genderScroll.expanded;
+   // System.out.println("Gender Expand "+ genderExpand);
    regionExpand = regionScroll.expanded;
-   ageExpand = ageScroll.expanded;
-
+   // System.out.println("Region Expand "+regionExpand);
+   regionChecked = menuView.byRegion.value;
+   // System.out.println("Region Checked "+ regionChecked);
    africaChecked = showAfrica.value;
    asiaChecked  = showAsia.value;
    europeChecked = showEurope.value;
@@ -390,41 +358,39 @@ void mouseClicked()
    northAmericaChecked = showNorthAmerica.value;
    southAmericaChecked = showSouthAmerica.value;
    carribeanChecked = showCarribean.value;
-   unknownRegionChecked = showUnknownRegion.value;  
 
- 
-   nineYrsChecked = showNineYrs.value;
-   nineteenYrsChecked = showNineteenYrs.value;
-   twentyNineYrsChecked = showTwentyNineYrs.value;
-   thirtyNineYrsChecked = showThirtyNineYrs.value;
-   fortyNineYrsChecked = showFortyNineYrs.value;
-   fiftyNineYrsChecked = showFiftyNineYrs.value;
-   sixtyOrMoreChecked = showSixtyOrMoreYrs.value;
-   unknownAgeChecked = showUnknownAge.value;
-   
-    gendersChecked = menuView.byGender.value;
-    regionChecked = menuView.byRegion.value;
-    ageChecked = menuView.byAge.value;
-    allChecked = menuView.all.value;
-    customizeChecked = menuView.customize.value;
-    
-    
+  carribeanChecked = showCarribean.value;
+  unknownRegionChecked = showUnknownRegion.value;  
+
+
+  nineYrsChecked = showNineYrs.value;
+  nineteenYrsChecked = showNineteenYrs.value;
+  twentyNineYrsChecked = showTwentyNineYrs.value;
+  thirtyNineYrsChecked = showThirtyNineYrs.value;
+  fortyNineYrsChecked = showFortyNineYrs.value;
+  fiftyNineYrsChecked = showFiftyNineYrs.value;
+  sixtyOrMoreChecked = showSixtyOrMoreYrs.value;
+  unknownAgeChecked = showUnknownAge.value;
+
+  gendersChecked = menuView.byGender.value;
+  regionChecked = menuView.byRegion.value;
+  ageChecked = menuView.byAge.value;
+  allChecked = menuView.all.value;
+  customizeChecked = menuView.customize.value;
+
+  carribeanChecked = showCarribean.value;
 } 
+
 void keyPressed() {
   //System.out.println("Here!");
   //System.out.println(mainView.keypressed());
   mainView.keypressed();
 }
-void mouseReleased() {
-  graphView.lastDrag = -555;
-  mainView.mouseReleased(mouseX, mouseY);
-}
+
 void drawDraggableBox() {
 
-  if (!mainView.subviews.contains(searchView))
-    searchView.myTextfield.hide();
   if (searchView.draggedIndex != -1) {
-    //   System.out.println("Drawing Dragged");
+    rectMode(CORNERS);
     fill(tabColor2, 100);
     strokeWeight(1);
     rect(mouseX-10, mouseY-10, mouseX+203, mouseY+15);
@@ -438,6 +404,24 @@ void drawDraggableBox() {
     text(t, mouseX+100, mouseY+10);
     textFont(f2);
     textSize(20);
+  }
+}
+
+void mouseReleased() {
+  println("release");
+  if (draggingContent) {
+    if (mouseX >= 10 && mouseX <= 10 + 900 && mouseY >= 40 && mouseY <= 40 + 600) { // Inside the rectangule view.
+      if (searchView.draggedIndex != -1) {
+        println("entro");
+        currentlyViewing = searchView.dragged;
+        //System.out.println("Currently Viewing "+ currentlyViewing);
+        currentIndex = searchView.draggedIndex;
+        searchView.draggedIndex = -1;
+        searchView.dragged = "";
+      }
+    }
+    searchView.draggedIndex = -1;
+    searchView.dragged = "";
   }
 }
 

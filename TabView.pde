@@ -1,12 +1,10 @@
-// Can you see this?
 class TabView extends View {
-
-
   public int view = 1; // this variable is used to know in which tap is selected. 
   public float[] tabLeft, tabRight;
   public float tabTop, tabBottom;
   public float tabPad = 20;
   //public ArrayList<Track> searchResults;
+  
   TabView(float x_, float y_, float w_, float h_)
   {
     super(x_, y_, w_, h_);
@@ -15,27 +13,27 @@ class TabView extends View {
 
   void drawContent()
   {
-    fill(0);
-    //    rect(0,0,w,h);
     rectMode(CORNERS);
+    fill(0);
+    
     noStroke();
     textSize(largeFontSize);
-    textAlign(LEFT);
+    textAlign(LEFT,TOP);
 
     if (tabLeft == null) {
       tabLeft = new float[6];
       tabRight = new float[6];
     }
 
-    float runningX =this.x;
-    tabTop =  this.y;
-    tabBottom = this.y + 30;
-
+    float runningX = 0 ;
+    tabTop =  0;
+    tabBottom = h;
+    
     for (int i = 1; i < 5; i++) {
       String title = "";
       switch(i) {
       case 1: 
-        title = "Bubbles";
+        title = "Relations";
         break;
       case 2: 
         title = "Graphs"; 
@@ -55,24 +53,17 @@ class TabView extends View {
       rect(tabLeft[i-1], tabTop, tabRight[i-1], tabBottom);
 
       fill(i == view ? textColor2: textColor1);
-      text(title, runningX + tabPad, this.y + 20);
+      text(title, runningX + tabPad, this.y - 5);
 
       runningX = tabRight[i-1];
     }
-    //  rectMode(CORNER);
+    w = runningX;
   }
-  /*boolean mousePressed(float px, float py) {
-   
-   if(py >= tabTop && py <= tabBottom){
-   contentPressed(px,py);
-   }
-   return (py >= tabTop && py <= tabBottom);
-   
-   }*/
+
   boolean contentClicked(float lx, float ly)
   {
-//    System.out.println(ly + " BUT "+tabTop + " AND " +tabBottom);  
-   if(ly >y && ly < y+h){
+    println("entro");  
+    if (ly >= tabTop && ly <= tabBottom) {
 
       // Changing the view if a tab is clicked  
       for (int i = 0; i< 4; i++) {
@@ -85,33 +76,28 @@ class TabView extends View {
       switch(view) {
       case 1:  
         if (mainView.subviews.contains(graphView)) mainView.subviews.remove(graphView);
-        searchView.myTextfield.hide();
+
+//        searchView.myTextfield.hide();
         if (mainView.subviews.contains(searchView)) mainView.subviews.remove(searchView);
         searchView.dragged= "";
         searchView.draggedIndex = -1; 
         graphView.entryIndex = new ArrayList<String>();
         graphView.entryViewing = new ArrayList<String>(); 
-        if (!mainView.subviews.contains(bubbleView))mainView.subviews.add(bubbleView); 
+        if (!mainView.subviews.contains(relationshipsView))mainView.subviews.add(relationshipsView); 
         if (mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
         if (mainView.subviews.contains(genderScroll))mainView.subviews.remove(genderScroll);
         if (mainView.subviews.contains(regionScroll))mainView.subviews.remove(regionScroll);
-        if (mainView.subviews.contains(ageScroll))mainView.subviews.remove(ageScroll);
-      
         break;
       case 2:  
-        searchView.myTextfield.show(); 
-        if (!mainView.subviews.contains(searchView))mainView.subviews.add(searchView);
         if (!mainView.subviews.contains(graphView))mainView.subviews.add(graphView); 
 
         searchView.searchResults = new ArrayList<String>();
         for (int i = 0; i< bandNames.size();i++) {
           searchView.searchResults.add(""+i);
         }
-        if (mainView.subviews.contains(bubbleView)) mainView.subviews.remove(bubbleView);
+        if (mainView.subviews.contains(relationshipsView)) mainView.subviews.remove(relationshipsView);
         if (!mainView.subviews.contains(genderScroll))mainView.subviews.add(genderScroll);
         if (!mainView.subviews.contains(regionScroll)) mainView.subviews.add(regionScroll);
-        if (!mainView.subviews.contains(ageScroll))mainView.subviews.add(ageScroll);
-    
         if (!mainView.subviews.contains(menuView))mainView.subviews.add(menuView);
         if (menuView.all.value) {
           int x2 = 70;
@@ -121,13 +107,11 @@ class TabView extends View {
           
           for (int j = startEntry ; j <= endEntry;j++) {
             Entry e = new Entry((float)x2, (float)y2, (float)50, graphView.h, j);
-            if (!graphView.subviews.contains(e))graphView.subviews.add(e);
+            if (!graphView.subviews.contains(e))graphView.subviews.add( e );
             x2+=90;
           }
           
         }
-        
-       
         break;
       case 3:  
         if (mainView.subviews.contains(graphView)) mainView.subviews.remove(graphView);
@@ -137,12 +121,10 @@ class TabView extends View {
         searchView.draggedIndex = -1; 
         graphView.entryIndex = new ArrayList<String>();
         graphView.entryViewing = new ArrayList<String>(); 
-        if (mainView.subviews.contains(bubbleView)) mainView.subviews.remove(bubbleView); 
+        if (mainView.subviews.contains(relationshipsView)) mainView.subviews.remove(relationshipsView); 
         if (mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
         if (mainView.subviews.contains(genderScroll))mainView.subviews.remove(genderScroll);
         if (mainView.subviews.contains(regionScroll))mainView.subviews.remove(regionScroll);
-        if (mainView.subviews.contains(ageScroll))mainView.subviews.remove(ageScroll);
-     
         break;
       case 4:  
         if (mainView.subviews.contains(graphView)) mainView.subviews.remove(graphView);
@@ -152,20 +134,15 @@ class TabView extends View {
         searchView.draggedIndex = -1; 
         graphView.entryIndex = new ArrayList<String>();
         graphView.entryViewing = new ArrayList<String>(); 
-        if (mainView.subviews.contains(bubbleView)) mainView.subviews.remove(bubbleView); 
+        if (mainView.subviews.contains(relationshipsView)) mainView.subviews.remove(relationshipsView); 
         if (mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
         if (mainView.subviews.contains(genderScroll))mainView.subviews.remove(genderScroll);
         if (mainView.subviews.contains(regionScroll))mainView.subviews.remove(regionScroll);
-        if (mainView.subviews.contains(ageScroll))mainView.subviews.remove(ageScroll);
-    
         break;
       }
-    
+    } 
 
     return true;
-  }
-  return false;
-  }
-  
+}
 }
 

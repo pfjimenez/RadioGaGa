@@ -3,6 +3,7 @@ class CenterView extends View {
   public ArrayList<String> entryViewing = new ArrayList<String>();
   public ArrayList<String> entryIndex = new ArrayList<String>();
   public int lastDrag = -555;
+
   CenterView(float x_, float y_, float w_, float h_)
   {
     super(x_, y_, w_, h_);
@@ -76,6 +77,7 @@ if(!gendersChecked && ! ageChecked && !regionChecked){
   boolean contentPressed(float lx, float ly) {
     return false;
   }
+/*
   boolean mouseReleased(int posX, int posY) {
 
     if (posX >= x && posX <= x+w && posY >= y && posY <= y+h) {
@@ -123,8 +125,6 @@ if(!gendersChecked && ! ageChecked && !regionChecked){
    return false;
 
   }
-
-    
-  
+*/
 }
 
