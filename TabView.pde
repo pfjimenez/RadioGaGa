@@ -63,6 +63,8 @@ class TabView extends View {
 
   boolean contentClicked(float lx, float ly)
   {
+    println("entro");  
+    if (ly >= tabTop && ly <= tabBottom) {
 
       // Changing the view if a tab is clicked  
       for (int i = 0; i< 4; i++) {
@@ -79,8 +81,6 @@ class TabView extends View {
         if (mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
         if (mainView.subviews.contains(genderScroll))mainView.subviews.remove(genderScroll);
         if (mainView.subviews.contains(regionScroll))mainView.subviews.remove(regionScroll);
-        if (mainView.subviews.contains(ageScroll))mainView.subviews.remove(ageScroll);
-      
         break;
       case 2:  
         if (!mainView.subviews.contains(graphView))mainView.subviews.add(graphView); 
@@ -92,23 +92,7 @@ class TabView extends View {
         if (mainView.subviews.contains(relationshipsView)) mainView.subviews.remove(relationshipsView);
         if (!mainView.subviews.contains(genderScroll))mainView.subviews.add(genderScroll);
         if (!mainView.subviews.contains(regionScroll)) mainView.subviews.add(regionScroll);
-        if (!mainView.subviews.contains(ageScroll))mainView.subviews.add(ageScroll);
-    
         if (!mainView.subviews.contains(menuView))mainView.subviews.add(menuView);
-        if (menuView.all.value) {
-          int x2 = 70;
-          int y2 = 0;
-          startEntry = 0;
-          endEntry = 8;
-          
-          for (int j = startEntry ; j <= endEntry;j++) {
-            Entry e = new Entry((float)x2, (float)y2, (float)50, graphView.h, j);
-            if (!graphView.subviews.contains(e))graphView.subviews.add(e);
-            x2+=90;
-          }
-          
-        }
-        
        
         break;
       case 3:  
@@ -117,8 +101,6 @@ class TabView extends View {
         if (mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
         if (mainView.subviews.contains(genderScroll))mainView.subviews.remove(genderScroll);
         if (mainView.subviews.contains(regionScroll))mainView.subviews.remove(regionScroll);
-        if (mainView.subviews.contains(ageScroll))mainView.subviews.remove(ageScroll);
-     
         break;
       case 4:  
         if (mainView.subviews.contains(graphView)) mainView.subviews.remove(graphView);
@@ -126,14 +108,16 @@ class TabView extends View {
         if (mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
         if (mainView.subviews.contains(genderScroll))mainView.subviews.remove(genderScroll);
         if (mainView.subviews.contains(regionScroll))mainView.subviews.remove(regionScroll);
-        if (mainView.subviews.contains(ageScroll))mainView.subviews.remove(ageScroll);
-    
         break;
       }
-    
+    } 
 
     return true;
-
+<<<<<<< HEAD
   
+=======
+  }
+
+>>>>>>> parent of ef4fb8b... Updates
 }
 

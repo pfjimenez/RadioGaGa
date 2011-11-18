@@ -4,12 +4,11 @@ class Checkbox extends View {
   boolean value;
   color ckbColor = -1;
   PImage icon;
-  public String title;
+  String title;
   color iconColor = -1;
   PImage unchecked;
   PImage checked;
   int sized = 0;
-  char c = '0';
   Checkbox(float x_, float y_, float w_, float h_,String text_, PImage image_, color iconColor_)
   {
     super(x_, y_, w_, h_);
@@ -42,12 +41,7 @@ class Checkbox extends View {
    this.unchecked = unchecked; 
  
 }
-  Checkbox(float x_, float y_, int w_, int h_, String text_, boolean value, char c ){
-     super(x_, y_,w_,h_);
-    title  = text_;
-    this.value = value;
-    this.c = c;
-  }
+  
   void drawContent()
   {
   //  System.out.println(y);
@@ -69,25 +63,6 @@ class Checkbox extends View {
         
         
      }else{
-       if(c == '1'){
-         if(!value){
-       strokeWeight(2);
-       stroke(255);
-       fill(menuColor1);
-       ellipse(0,2,20,20);
-       fill(255);
-     text(title, w+50, 10);
-      
-         }else{
-         strokeWeight(1);
-       stroke(255);
-       fill(255);
-       ellipse(0,2,20,20);
- text(title, w+50, 10);
-      
-       }
-       }
-       else{
   strokeWeight(1);
  
        if (value){
@@ -126,48 +101,15 @@ class Checkbox extends View {
    }
     
   }
-  }
+  
   boolean contentClicked(float lx, float ly)
   {
     value = !value;
  //   println(value);
- //System.out.println(title+" "+value);
     return true;
-  }
-  boolean mouseClicked(float px, float py){
-    if(c == '0'){
-    if (!ptInRect(px, py, x, y, w, h)) return false;
-    float lx = px - x;
-    float ly = py - y;
-    // check our subviews first
-    for (int i = subviews.size()-1; i >= 0; i--) {
-     // System.out.println(i);
-
-      View v = (View)subviews.get(i);
-      if (v.mouseClicked(lx, ly)) return true;
-    }
-    return contentClicked(lx, ly);
-  }
-  else{
-    if (!ptInRect(px, py, x-20, y-20, w+40, h+40)) return false;
-    float lx = px - x;
-    float ly = py - y;
-    // check our subviews first
-    for (int i = subviews.size()-1; i >= 0; i--) {
-     // System.out.println(i);
-
-      View v = (View)subviews.get(i);
-      if (v.mouseClicked(lx, ly)) return true;
-    }
-    return contentClicked(lx, ly);
-  
-  }
   }
   
   void setValue(Boolean _value){
     value = _value;
-  }
-  String getTitle(){
-  return title;
   }
 }
