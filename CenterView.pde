@@ -2,6 +2,7 @@
 class CenterView extends View {
   public ArrayList<String> entryViewing = new ArrayList<String>();
   public ArrayList<String> entryIndex = new ArrayList<String>();
+  public int justSearched = -1;
   public int lastDrag = -555;
 
   CenterView(float x_, float y_, float w_, float h_)
@@ -15,8 +16,9 @@ class CenterView extends View {
     strokeWeight(2);
     stroke(tabColor2);
     fill(255);
-    rect(10, 0, w, h);
+    rect(0, 0, w, h);
     fill(tabColor2);
+    textAlign(CENTER);
   //  text(currentlyViewing,w/2,h/2);
     /* if(viewTabs.view == 2 && allChecked){
      int x2 = 70;
@@ -77,7 +79,7 @@ if(!gendersChecked && ! ageChecked && !regionChecked){
   boolean contentPressed(float lx, float ly) {
     return false;
   }
-/*
+  /*
   boolean mouseReleased(int posX, int posY) {
 
     if (posX >= x && posX <= x+w && posY >= y && posY <= y+h) {
@@ -108,6 +110,7 @@ if(!gendersChecked && ! ageChecked && !regionChecked){
   
 }
 //boolean mouseClicked(float lx, float ly)
+*/
   boolean contentDragged(float lx, float ly) {
   //  System.out.println("LaLaLa Dragging LX = "lx+" BUT X"+x);
 //  if()
@@ -116,15 +119,15 @@ if(!gendersChecked && ! ageChecked && !regionChecked){
       lastDrag = (int)lx;
     }
     
-    else {
-      
-    // System.out.println("Diff = "+(lx)+" AND Condition: "+((lx - lastDrag)%50==0));
-    }
+   
  return true;  
-}
+}else{
+    
+
+   }
    return false;
 
   }
-*/
+
 }
 

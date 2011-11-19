@@ -22,7 +22,7 @@ public color menuColor1 = #483D8B;
 public color draggableContentBoxColor= #CCCCFF;
 public PFont f2, fbold;
 public PImage nextArrow, prevArrow;
-
+public  String titleChanged = "";
 public color viewBackgroundColor = 255;
 public color infoBoxBackground = #000000;
 public Integrator genderic;
@@ -177,10 +177,10 @@ public void setup()
   textFont(f2);
   papplet = this;
   mainView = new View(0, 0, width, height);
-  genderScroll = new ScrollMenu(150, 499, 190, 5, genderExpand, 120);
-  regionScroll = new ScrollMenu(370, 260, 190, 5, regionExpand, 360);
+    genderScroll = new ScrollMenu(150, 479, 190, 5, genderExpand, 140);
+  regionScroll = new ScrollMenu(350,260,190,5,regionExpand,360);
   ageScroll = new ScrollMenu(550,260,190,5,ageExpand,360);
-  //  int i  = 0;
+ //  int i  = 0;
   // String key = "b25b959554ed76058ac220b7b2e0a026"; //this is the key used in the last.fm API examples online.
 
   //topTracks = Artist.getTopTracks("Depeche Mode", key);
@@ -194,7 +194,7 @@ public void setup()
   mainView.subviews.add(relationshipsView);
   controlP5 = new ControlP5(this);
 
-  graphView  = new CenterView(10, 50, 900, 450);
+  graphView  = new CenterView(10, 40, 900, 500);
   searchView = new SearchView(920, 10, 250, 580);
   mainView.subviews.add(searchView);
 
@@ -203,7 +203,7 @@ public void setup()
   prevArrow = loadImage("Previous.png"); 
   prevArrow.resize(0, 30);
 
-  menuView = new MenuView(50, 635, 800, 20);
+  menuView = new MenuView(50, 635, 1000, 20);
   gendersChecked = menuView.byGender.value;
   regionChecked = menuView.byRegion.value;
   
@@ -333,13 +333,148 @@ void mousePressed()
 
 void mouseDragged()
 {
+  if(viewTabs.view == 2 && graphView.lastDrag != -555){
+      
+      if (mouseX < graphView.lastDrag &&  (graphView.lastDrag - mouseX)%10 ==0 && endEntry < bandNames.size()-1 && allChecked) {
+        startEntry+=1;
+        endEntry+=1;
+        graphView.subviews = new ArrayList<View>();
+        int x2 = 70;
+        int y2 = 0;
+        for (int j = startEntry ; j <= endEntry; j++) {
+          Entry e = new Entry((float)x2, (float)y2, (float)50, graphView.h, j);
+          graphView.subviews.add(e);
+          x2+=90;
+        }
+        graphView.lastDrag = mouseX;
+      }else{
+      if(mouseX > graphView.lastDrag && (mouseX-graphView.lastDrag)%10 ==0 && startEntry >0 && allChecked){
+        startEntry-=1;
+        endEntry-=1;
+        graphView.subviews = new ArrayList<View>();
+        int x2 = 70;
+        int y2 = 0;
+        for (int j = startEntry ; j <= endEntry; j++) {
+          Entry e = new Entry((float)x2, (float)y2, (float)50, graphView.h, j);
+          graphView.subviews.add(e);
+          x2+=90;
+        }
+        graphView.lastDrag = mouseX;
+      }
+      }
+    
+  
+  }
+  else{
   mainView.mouseDragged(mouseX, mouseY);
+  }
 }
 
 void mouseClicked()
 {
   mainView.mouseClicked(mouseX, mouseY);
+  if (titleChanged.contains("Age")&& menuView.byAge.value ) {
+          menuView.byGender.value = false;
+          menuView.byRegion.value = false;
+ integrators = new ArrayList<Integrator>(); 
+          for(int j = 0 ; j< 90; j++){
+  
+             Integrator temp = new Integrator(graphView.h);
+  integrators.add(temp);
+  }
+          int x2 = 70;
+          int y2 = 0;
+         
+            graphView.subviews = new ArrayList<View>();
+          
+          for (int j = startEntry ; j <= endEntry;j++) {
+            Entry e = new Entry((float)x2, (float)y2, (float)50, graphView.h, j);
+            if (!graphView.subviews.contains(e))graphView.subviews.add(e);
+            x2+=90;
+          }
  
+        }
+        if (titleChanged.contains("Region")&& menuView.byRegion.value ) {
+          menuView.byGender.value = false;
+          menuView.byAge.value = false;
+ integrators = new ArrayList<Integrator>(); 
+          for(int j = 0 ; j< 90; j++){
+  
+             Integrator temp = new Integrator(graphView.h);
+  integrators.add(temp);
+  }
+          int x2 = 70;
+          int y2 = 0;
+         
+            graphView.subviews = new ArrayList<View>();
+          
+          for (int j = startEntry ; j <= endEntry;j++) {
+            Entry e = new Entry((float)x2, (float)y2, (float)50, graphView.h, j);
+            if (!graphView.subviews.contains(e))graphView.subviews.add(e);
+            x2+=90;
+          }
+ 
+        }
+        if (titleChanged.contains("Gender")&& menuView.byGender.value ) {
+          menuView.byAge.value = false;
+          menuView.byRegion.value = false;
+ integrators = new ArrayList<Integrator>(); 
+          for(int j = 0 ; j< 90; j++){
+  
+             Integrator temp = new Integrator(graphView.h);
+  integrators.add(temp);
+  }
+          int x2 = 70;
+          int y2 = 0;
+         
+            graphView.subviews = new ArrayList<View>();
+          
+          for (int j = startEntry ; j <= endEntry;j++) {
+            Entry e = new Entry((float)x2, (float)y2, (float)50, graphView.h, j);
+            if (!graphView.subviews.contains(e))graphView.subviews.add(e);
+            x2+=90;
+          }
+ 
+        }
+        if (titleChanged.contains("All")&& menuView.all.value ) {
+          menuView.customize.value = false;
+        }
+
+        if (titleChanged.contains("Chosen")&& menuView.customize.value ) {
+          System.out.println("Here! I'm here");
+          menuView.all.value = false;
+        }
+     
+        if (titleChanged.contains("All") && menuView.all.value) {
+ integrators = new ArrayList<Integrator>(); 
+          for(int j = 0 ; j< 90; j++){
+  
+             Integrator temp = new Integrator(graphView.h);
+  integrators.add(temp);
+  }
+          int x2 = 70;
+          int y2 = 0;
+         
+            graphView.subviews = new ArrayList<View>();
+          
+          for (int j = startEntry ; j <= endEntry;j++) {
+            Entry e = new Entry((float)x2, (float)y2, (float)50, graphView.h, j);
+            if (!graphView.subviews.contains(e))graphView.subviews.add(e);
+            x2+=90;
+          }
+       }
+      if(titleChanged.contains("Chosen") && menuView.customize.value){
+        
+ integrators = new ArrayList<Integrator>(); 
+            graphView.subviews = new ArrayList<View>();
+      for(int j = 0 ; j< graphView.entryViewing.size(); j++){
+      
+        
+        
+      }
+      
+
+      }
   // println("Clicked in new  " +newcheckbox.title + " " + newcheckbox.value );
    gendersChecked = menuView.byGender.value;
    maleChecked = showMales.value;
@@ -379,6 +514,7 @@ void mouseClicked()
   customizeChecked = menuView.customize.value;
 
   carribeanChecked = showCarribean.value;
+  
 } 
 
 void keyPressed() {
@@ -409,7 +545,7 @@ void drawDraggableBox() {
 
 void mouseReleased() {
   println("release");
-  if (draggingContent) {
+  if (draggingContent && viewTabs.view == 1) {
     if (mouseX >= 10 && mouseX <= 10 + 900 && mouseY >= 40 && mouseY <= 40 + 600) { // Inside the rectangule view.
       if (searchView.draggedIndex != -1) {
         println("entro");
@@ -422,6 +558,27 @@ void mouseReleased() {
     }
     searchView.draggedIndex = -1;
     searchView.dragged = "";
+  }else{
+    if(draggingContent &&viewTabs.view == 2){
+    if(customizeChecked){
+        graphView.entryViewing.add(searchView.dragged);
+        //System.out.println("Currently Viewing "+ currentlyViewing);
+        graphView.entryIndex.add(""+searchView.draggedIndex);
+        searchView.draggedIndex = -1;
+        searchView.dragged = "";
+     
+    }
+    else{
+      
+     graphView. justSearched = searchView.draggedIndex;
+      searchView.draggedIndex = -1;
+      searchView.dragged = "";
+     
+    }
+    }else{
+ 
+     if(viewTabs.view == 2) graphView.lastDrag = -555;
   }
+}
 }
 

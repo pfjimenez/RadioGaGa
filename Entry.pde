@@ -22,6 +22,7 @@ public ArrayList<String> bandNames = new ArrayList<String>();
 
   void drawContent()
   {
+    rectMode(CORNERS);
     String bandName = bandNames.get(index);
     int numOfListeners = Integer.parseInt(listeners.get(index));
 
@@ -59,11 +60,15 @@ public ArrayList<String> bandNames = new ArrayList<String>();
     int diff = index - startEntry;
     integrators.get(diff).target(numOfListeners);
     if (mouseX >= x && mouseX <= x+w && mouseY >= y+10 && mouseY <= y+h+10 && graphView.lastDrag == -555 && !regionExpand && !ageExpand && !genderExpand) {
-      stroke(0);
       strokeWeight(2);
-    }
-    else
-      stroke(barsColor[8]);
+      stroke(0);
+      }
+    else{
+      if(index == graphView.justSearched)
+      stroke(#B0171F);
+      else
+  noStroke();  
+  }
     fill(barsColor[8]);
     float y2 = map(integrators.get(diff).value, 0, maxAll, h-30, 10);
     if (!gendersChecked && !ageChecked && !regionChecked) {
@@ -92,6 +97,10 @@ public ArrayList<String> bandNames = new ArrayList<String>();
             strokeWeight(2);
           }
           else {
+    
+      if(index == graphView.justSearched)
+      stroke(#B0171F);
+      else
             noStroke();
           }
           fill(barsColor[0]);
@@ -107,6 +116,10 @@ public ArrayList<String> bandNames = new ArrayList<String>();
             strokeWeight(2);
           }
           else {
+            
+      if(index == graphView.justSearched)
+      stroke(#B0171F);
+      else
             noStroke();
           }
           fill(barsColor[1]);
@@ -125,6 +138,10 @@ public ArrayList<String> bandNames = new ArrayList<String>();
               strokeWeight(2);
             }
             else {
+              
+      if(index == graphView.justSearched)
+      stroke(#B0171F);
+      else
               noStroke();
             }
             fill(barsColor[1]);
@@ -168,6 +185,10 @@ public ArrayList<String> bandNames = new ArrayList<String>();
               strokeWeight(2);
             }
             else {
+              
+      if(index == graphView.justSearched)
+      stroke(#B0171F);
+      else
               noStroke();
             }
             fill(barsColor[0]);
@@ -184,6 +205,10 @@ public ArrayList<String> bandNames = new ArrayList<String>();
               strokeWeight(2);
             }
             else {
+              
+      if(index == graphView.justSearched)
+      stroke(#B0171F);
+      else
               noStroke();
             }
             fill(barsColor[5]);
@@ -205,6 +230,10 @@ public ArrayList<String> bandNames = new ArrayList<String>();
               strokeWeight(2);
             }
             else {
+              
+      if(index == graphView.justSearched)
+      stroke(#B0171F);
+      else
               noStroke();
             }
             fill(barsColor[2]);
@@ -227,6 +256,10 @@ public ArrayList<String> bandNames = new ArrayList<String>();
               strokeWeight(2);
             }
             else {
+              
+      if(index == graphView.justSearched)
+      stroke(#B0171F);
+      else
               noStroke();
             }
             fill(barsColor[3]);
@@ -249,6 +282,10 @@ public ArrayList<String> bandNames = new ArrayList<String>();
               strokeWeight(2);
             }
             else {
+              
+      if(index == graphView.justSearched)
+      stroke(#B0171F);
+      else
               noStroke();
             }
             fill(barsColor[4]);
@@ -271,6 +308,10 @@ public ArrayList<String> bandNames = new ArrayList<String>();
               strokeWeight(2);
             }
             else {
+              
+      if(index == graphView.justSearched)
+      stroke(#B0171F);
+      else
               noStroke();
             }
             fill(barsColor[6]);
@@ -291,6 +332,10 @@ public ArrayList<String> bandNames = new ArrayList<String>();
               strokeWeight(2);
             }
             else {
+              
+      if(index == graphView.justSearched)
+      stroke(#B0171F);
+      else
               noStroke();
             }
             fill(barsColor[1]);
@@ -312,6 +357,10 @@ public ArrayList<String> bandNames = new ArrayList<String>();
               strokeWeight(2);
             }
             else {
+              
+      if(index == graphView.justSearched)
+      stroke(#B0171F);
+      else
               noStroke();
             }
             fill(barsColor[8]);
@@ -351,6 +400,10 @@ public ArrayList<String> bandNames = new ArrayList<String>();
                 strokeWeight(2);
               }
               else {
+              
+      if(index == graphView.justSearched)
+      stroke(#B0171F);
+      else
                 noStroke();
               }
               fill(barsColor[0]);
@@ -369,6 +422,10 @@ public ArrayList<String> bandNames = new ArrayList<String>();
                 strokeWeight(2);
               }
               else {
+              
+      if(index == graphView.justSearched)
+      stroke(#B0171F);
+      else
                 noStroke();
               }
               fill(barsColor[2]);
@@ -390,6 +447,10 @@ public ArrayList<String> bandNames = new ArrayList<String>();
                 strokeWeight(2);
               }
               else {
+              
+      if(index == graphView.justSearched)
+      stroke(#B0171F);
+      else
                 noStroke();
               }
               fill(barsColor[4]);
@@ -410,6 +471,10 @@ public ArrayList<String> bandNames = new ArrayList<String>();
                 strokeWeight(2);
               }
               else {
+              
+      if(index == graphView.justSearched)
+      stroke(#B0171F);
+      else
                 noStroke();
               }
               fill(barsColor[5]);
@@ -431,6 +496,10 @@ public ArrayList<String> bandNames = new ArrayList<String>();
                 strokeWeight(2);
               }
               else {
+              
+      if(index == graphView.justSearched)
+      stroke(#B0171F);
+      else
                 noStroke();
               }
               fill(barsColor[6]);
@@ -452,6 +521,10 @@ public ArrayList<String> bandNames = new ArrayList<String>();
                 strokeWeight(2);
               }
               else {
+              
+      if(index == graphView.justSearched)
+      stroke(#B0171F);
+      else
                 noStroke();
               }
               fill(barsColor[8]);
@@ -473,6 +546,10 @@ public ArrayList<String> bandNames = new ArrayList<String>();
                 strokeWeight(2);
               }
               else {
+              
+      if(index == graphView.justSearched)
+      stroke(#B0171F);
+      else
                 noStroke();
               }
               fill(barsColor[7]);

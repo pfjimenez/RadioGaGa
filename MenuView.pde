@@ -2,7 +2,7 @@
 
 class MenuView extends View {
 
-
+ 
 
 
   Checkbox byGender;
@@ -55,7 +55,7 @@ class MenuView extends View {
   void drawContent()
   {
     fill(menuColor1);
-
+     
     roundrect(0, 0, (int)w, 15, 15);
     fill(textColor2);
     textFont(fbold);
@@ -65,77 +65,31 @@ class MenuView extends View {
     textFont(f2);
   }
 
-  boolean contentClicked(float lx, float ly)
+ /* boolean contentClicked(float lx, float ly)
   {
     return false;
   }
-  boolean mouseClicked(float px, float py)
+  */
+  boolean contentClicked(float px, float py)
   {
     // System.out.println(px + " "+ py);
 
-    if (!ptInRect(px, py, x, y-200, w, h+200)) return false;
+    /*if (!ptInRect(px, py, x, y-200, w, h+200)) return false;
     float lx = px - x;
     float ly = py - y;
     // check our subviews first
-    for (int i = subviews.size()-1; i >= 0; i--) {
+//    */
+//    for (int i = subviews.size()-1; i >= 0; i--) {
       // System.out.println(i);
 
-      Checkbox c = (Checkbox)subviews.get(i);
-      View v = (View)subviews.get(i);
-      if (v.mouseClicked(lx, ly)) {
-        if (c.getTitle().contains("Age")&& c.value ) {
-          byGender.value = false;
-          byRegion.value = false;
-        }
-        if (c.getTitle().contains("Region")&& c.value ) {
-          byGender.value = false;
-          byAge.value = false;
-        }
-        if (c.getTitle().contains("Gender")&& c.value ) {
-          byAge.value = false;
-          byRegion.value = false;
-        }
-        if (c.getTitle().contains("All")&& c.value ) {
-          customize.value = false;
-        }
-
-        if (c.getTitle().contains("Customize")&& c.value ) {
-          all.value = false;
-        }
-
-        if (all.value) {
- integrators = new ArrayList<Integrator>(); 
-          for(int j = 0 ; j< 90; j++){
-  
-             Integrator temp = new Integrator(graphView.h);
-  integrators.add(temp);
-  }
-          int x2 = 70;
-          int y2 = 0;
-         
-            graphView.subviews = new ArrayList<View>();
-          
-          for (int j = startEntry ; j <= endEntry;j++) {
-            Entry e = new Entry((float)x2, (float)y2, (float)50, graphView.h, j);
-            if (!graphView.subviews.contains(e))graphView.subviews.add(e);
-            x2+=90;
-          }
-        }
-      if(customize.value){
-        
- integrators = new ArrayList<Integrator>(); 
-            graphView.subviews = new ArrayList<View>();
-      for(int j = 0 ; j< graphView.entryViewing.size(); j++){
-      
-        
-        
-      }
-      }
-
+    //  Checkbox c = (Checkbox)subviews.get(i);
+  //    View v = (View)subviews.get(i);
+     // if (v.mouseClicked(lx, ly)) {
+     
       return true;
-    }
-  }
-  return contentClicked(lx, ly);
+ //   }
+  //}
+ // return false;
 }
 
 }

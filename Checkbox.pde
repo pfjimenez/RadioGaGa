@@ -130,6 +130,8 @@ class Checkbox extends View {
   boolean contentClicked(float lx, float ly)
   {
     value = !value;
+    System.out.println("Changing titles");
+    titleChanged = title;
  //   println(value);
  //System.out.println(title+" "+value);
     return true;

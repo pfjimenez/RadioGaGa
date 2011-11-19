@@ -9,8 +9,12 @@ class ScrollMenu extends View {
   //Integrator leftMenu = new Integrator(20);
   //Integrator leftCheckBoxes = new Integrator(100);
   //Integrator leftText = new Integrator(130);
+
+
   void draw()
   {
+    
+    rectMode(CORNERS);
     pushMatrix();
     translate(this.x, this.y);
     // draw out content, then our subviews on top
@@ -101,8 +105,10 @@ class ScrollMenu extends View {
 
     rectMode(CORNERS);
   }
+  /*
   void drawContent() {
-
+    fill(0);
+ rect(0,0,w,h);
     fill(0, 150);
     rect(0, head.value, w, openedHeight);
     fill(tabColor2);
@@ -116,7 +122,9 @@ class ScrollMenu extends View {
     } 
     //head.update();
   } 
-  boolean contentPressed(float lx, float ly) {
+  */
+  boolean contentClicked(float lx, float ly) {
+    
   //  System.out.println("Hey in here "+x+"  BUT "+ lx);
     if (expanded) {
       if (lx >= 0  && lx <= w && ly >= -5 && ly <= smallHeight) { 

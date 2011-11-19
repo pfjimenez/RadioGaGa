@@ -87,6 +87,8 @@ class TabView extends View {
         if (mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
         if (mainView.subviews.contains(genderScroll))mainView.subviews.remove(genderScroll);
         if (mainView.subviews.contains(regionScroll))mainView.subviews.remove(regionScroll);
+           if (mainView.subviews.contains(ageScroll))mainView.subviews.remove(ageScroll);
+     
         break;
       case 2:  
         if (!mainView.subviews.contains(graphView))mainView.subviews.add(graphView); 
@@ -98,6 +100,8 @@ class TabView extends View {
         if (mainView.subviews.contains(relationshipsView)) mainView.subviews.remove(relationshipsView);
         if (!mainView.subviews.contains(genderScroll))mainView.subviews.add(genderScroll);
         if (!mainView.subviews.contains(regionScroll)) mainView.subviews.add(regionScroll);
+        if (!mainView.subviews.contains(ageScroll))mainView.subviews.add(ageScroll);
+    
         if (!mainView.subviews.contains(menuView))mainView.subviews.add(menuView);
         if (menuView.all.value) {
           int x2 = 70;
@@ -125,6 +129,8 @@ class TabView extends View {
         if (mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
         if (mainView.subviews.contains(genderScroll))mainView.subviews.remove(genderScroll);
         if (mainView.subviews.contains(regionScroll))mainView.subviews.remove(regionScroll);
+        if (mainView.subviews.contains(ageScroll))mainView.subviews.remove(ageScroll);
+     
         break;
       case 4:  
         if (mainView.subviews.contains(graphView)) mainView.subviews.remove(graphView);
@@ -138,6 +144,8 @@ class TabView extends View {
         if (mainView.subviews.contains(menuView)) mainView.subviews.remove(menuView);
         if (mainView.subviews.contains(genderScroll))mainView.subviews.remove(genderScroll);
         if (mainView.subviews.contains(regionScroll))mainView.subviews.remove(regionScroll);
+        if (mainView.subviews.contains(ageScroll))mainView.subviews.remove(ageScroll);
+     
         break;
       }
     } 
