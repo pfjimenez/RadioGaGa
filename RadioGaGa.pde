@@ -581,4 +581,26 @@ void mouseReleased() {
   }
 }
 }
+void roundrect(int x, int y, int w, int h, int r, color c) {
+  rectMode(CORNER);
+  noFill();
+  stroke(c);
+
+  int  ax, ay, hr;
+
+  ax=x+w-1;
+  ay=y+h-1;
+  hr = r/2;
+
+  arc(x+r/2, y+r/2, r, r, radians(180.0), radians(270.0));
+  arc(ax+r/2, y+r/2, r, r, radians(270.0), radians(360.0));
+  arc(x+r/2, ay+r/2, r, r, radians(90.0), radians(180.0));
+  arc(ax+r/2, ay+r/2, r, r, radians(0.0), radians(90.0));
+
+  line(x+1+r/2, y-hr+r/2, w-2+r/2, y-hr+r/2);
+  line(x, y+r/2, x, h+r/2);
+  line(x+1+r/2, h+hr-1+r/2, w-2+r/2, h+hr-1+r/2);
+  line(w+hr-1+r/2, y+r/2, w+hr-1+r/2, h+r/2);
+
+}
 

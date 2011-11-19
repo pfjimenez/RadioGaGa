@@ -78,7 +78,7 @@ class TabView extends View {
         if (mainView.subviews.contains(graphView)) mainView.subviews.remove(graphView);
 
 //        searchView.myTextfield.hide();
-        if (mainView.subviews.contains(searchView)) mainView.subviews.remove(searchView);
+   //     if (mainView.subviews.contains(searchView)) mainView.subviews.remove(searchView);
         searchView.dragged= "";
         searchView.draggedIndex = -1; 
         graphView.entryIndex = new ArrayList<String>();
@@ -119,8 +119,8 @@ class TabView extends View {
         break;
       case 3:  
         if (mainView.subviews.contains(graphView)) mainView.subviews.remove(graphView);
-        searchView.myTextfield.hide();
-        if (mainView.subviews.contains(searchView)) mainView.subviews.remove(searchView);
+        //searchView.myTextfield.hide();
+        //if (mainView.subviews.contains(searchView)) mainView.subviews.remove(searchView);
         searchView.dragged= ""; 
         searchView.draggedIndex = -1; 
         graphView.entryIndex = new ArrayList<String>();
@@ -134,8 +134,8 @@ class TabView extends View {
         break;
       case 4:  
         if (mainView.subviews.contains(graphView)) mainView.subviews.remove(graphView);
-        searchView.myTextfield.hide();
-        if (mainView.subviews.contains(searchView)) mainView.subviews.remove(searchView);
+       // searchView.myTextfield.hide();
+        //if (mainView.subviews.contains(searchView)) mainView.subviews.remove(searchView);
         searchView.dragged= ""; 
         searchView.draggedIndex = -1; 
         graphView.entryIndex = new ArrayList<String>();

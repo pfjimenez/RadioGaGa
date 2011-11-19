@@ -9,8 +9,9 @@ class SearchView extends View {
   public Textfield myTextfield;
   public String searching = "";
   public int startResult = 0;
-  public int endResult = 18;
   public int numBoxes = 16;
+  public int endResult = numBoxes;
+
   public int stringSelected = -1;
   public ArrayList<String> searchResults;
   public  String dragged = "";
@@ -118,7 +119,9 @@ class SearchView extends View {
   }
 
 boolean keypressed() {
-
+    startResult = 0;
+   endResult = numBoxes;
+    
     if (myTextfield.isFocus()) {
       if (key != CODED && key == '\b' && searching.length()>0) {
         searching = searching.substring(0, searching.length()-1);

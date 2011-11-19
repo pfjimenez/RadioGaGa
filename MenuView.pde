@@ -72,24 +72,8 @@ class MenuView extends View {
   */
   boolean contentClicked(float px, float py)
   {
-    // System.out.println(px + " "+ py);
-
-    /*if (!ptInRect(px, py, x, y-200, w, h+200)) return false;
-    float lx = px - x;
-    float ly = py - y;
-    // check our subviews first
-//    */
-//    for (int i = subviews.size()-1; i >= 0; i--) {
-      // System.out.println(i);
-
-    //  Checkbox c = (Checkbox)subviews.get(i);
-  //    View v = (View)subviews.get(i);
-     // if (v.mouseClicked(lx, ly)) {
      
-      return true;
- //   }
-  //}
- // return false;
-}
+      return false;
+ }
 
 }

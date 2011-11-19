@@ -22,11 +22,11 @@ class RelationshipsView extends View {
   
 }
 
-static float hValue = 50;
-static float wValue = 250;
-static float hMainValue = 70;
+static float hValue = 60;
+static float wValue = 200;
 static float degree = 30.0;
 float angle = 90.0;
+int rRect = 30;
 
 class RelationshipsGraph extends View{
 
@@ -34,13 +34,14 @@ class RelationshipsGraph extends View{
   Map<Integer,RelationshipNode> similarTypeNodesMap;
   Map<Integer,RelationshipNode> recommendedNodesMap;
   Map<Integer,RelationshipNode> similarRankedNodes;
+  ArrayList relationLinks;
   int previousMainRNIndex = 0;
   
   RelationshipsGraph(float x_, float y_, float w_, float h_)
   {
     super(x_, y_, w_, h_);
     previousMainRNIndex = mainRNIndex;
-    mainNode = new RelationshipNode(w_/2 - wValue/2,h_/2,wValue, hMainValue,float(listeners.get(mainRNIndex)),bandNames.get(mainRNIndex));
+    mainNode = new RelationshipNode(w_/2 - wValue/2,h_/2,wValue, hValue,float(listeners.get(mainRNIndex)),bandNames.get(mainRNIndex));
     mainNode.mainNode = true;
     this.subviews.add(mainNode);
 
@@ -52,31 +53,32 @@ class RelationshipsGraph extends View{
     float ry = h_/2 + hValue/2;
     
     for (int i = 1; i < 5 ; i++) {
-      float x = h/2 * cos(radians(angle)) + ((angle > 90 && angle < 270) ?-rx/4:((angle == 90 || angle == 270)?0:rx/4));
+      float dx = h/2 * cos(radians(angle)) + ((angle > 90 && angle < 270) ?-rx/3:((angle == 90 || angle == 270)?0:rx/3));
      // float x = h/2 * cos(radians(angle));
-      float y = h/2 * sin(radians(angle)) +  ((angle == 90)?20:0);
-      RelationshipNode rn = new RelationshipNode(constrain(rx - x,5,w-wValue-5),constrain(ry - y,5,h-hValue-5), wValue, hValue, float(listeners.get(mainRNIndex+i)),bandNames.get(mainRNIndex+i));
+      float dy = h/2 * sin(radians(angle)) ;//constrain(ry+dy,5,h)
+      RelationshipNode rn = new RelationshipNode(constrain(rx - dx,10,w-wValue-10),ry + dy, wValue, hValue, float(listeners.get(mainRNIndex+i)),bandNames.get(mainRNIndex+i));
       recommendedNodesMap.put(i, rn);
       subviews.add(rn);
       angle = angle + degree;
      }
      
       for (int i = 1; i < 5 ; i++) {
-          float x = h/2 * cos(radians(angle)) + ((angle > 90 && angle < 270) ?-rx/4:((angle == 90 || angle == 270)?0:rx/4));
-          float y = h/2 * sin(radians(angle)) +  ((angle == 270)?-20:0);
-          RelationshipNode rn = new RelationshipNode(constrain(rx - x,5,w-wValue-5),ry - y, wValue, hValue, float(listeners.get(mainRNIndex+i)),bandNames.get(mainRNIndex+i));
+          float dx = h/2 * cos(radians(angle)) + ((angle > 90 && angle < 270) ?-rx/3:((angle == 90 || angle == 270)?0:rx/3));
+          float dy = h/2 * sin(radians(angle));
+          RelationshipNode rn = new RelationshipNode(constrain(rx - dx,10,w-wValue-10),ry+dy, wValue, hValue, float(listeners.get(mainRNIndex+i)),bandNames.get(mainRNIndex+i));
           similarRankedNodes.put(i, rn);
           subviews.add(rn);
           angle = angle + degree;
      }
      
       for (int i = 1; i < 5 ; i++) {
-           float x = h/2 * cos(radians(angle)) + ((angle > 90 && angle < 270) ?-rx/4:((angle == 90 || angle == 270)?0:rx/4));
-          float y = h/2 * sin(radians(angle)) +  ((angle == 270)?-20:0);
-          RelationshipNode rn = new RelationshipNode(constrain(rx - x,5,w-wValue-5),constrain(ry - y,5,h-hValue-5), wValue, hValue, float(listeners.get(mainRNIndex+i)),bandNames.get(mainRNIndex+i));
+          float dx = h/2 * cos(radians(angle)) + ((angle > 90 && angle < 270) ?-rx/3:((angle == 90 || angle == 270)?0:rx/3));
+          float dy = h/2 * sin(radians(angle)) ;
+          RelationshipNode rn = new RelationshipNode(constrain(rx - dx,10,w-wValue-10),ry+dy, wValue, hValue, float(listeners.get(mainRNIndex+i)),bandNames.get(mainRNIndex+i));
           similarTypeNodesMap.put(i, rn);
           subviews.add(rn);
           angle = angle + degree;
+          println(constrain(rx - dx,10,w-wValue-10) + " " +ry+dy);
      }
     
     
@@ -90,6 +92,12 @@ class RelationshipsGraph extends View{
 }
 
 color activeNode = tabColor1;
+
+class RelationshipLink{
+  char type;  //
+  
+  
+}
 
 class RelationshipNode extends View{
   
@@ -105,7 +113,6 @@ class RelationshipNode extends View{
    RelationshipNode(float x, float y, float w, float h, float rValue, String nodeName) {
   
     super(x,y,w,h);
-    println(x + " - " + y);
     this.rValue = rValue;
     iX = x;
     iY = y;
@@ -114,21 +121,19 @@ class RelationshipNode extends View{
    }
   
    void drawContent() {
+     rectMode(CORNER);
      int _lines = (mainNode?3:2);
      textAlign(CENTER);
      strokeWeight(3);
      textSize(normalFontSize);
      fill(mouseOverMe?activeNode:255,mouseOverMe?125:0);  
-   //  ellipseMode(CORNER);
-    // ellipse(0,0,w,h);
-     rectMode(CORNER);
-     rect(0,0,w,h);
+     roundrect(0,0,int(w-rRect),int(h)/2,int(rRect),tabColor2);
      fill(textColor);
      textLeading(normalFontSize);
      if (mainNode){
-       textSize(smallFontSize);
-       text("Details...",w/2,3*h/_lines - 5);
        text(nodeName+"\n# of listerners: " + round(rValue),w/2,h/3);
+       textSize(smallFontSize);
+       text("Click for details...",w/2,3*h/_lines - 5);
      }   
      else text(nodeName+"\n# of listerners: " + round(rValue),w/2,h/2);
   }
@@ -146,7 +151,3 @@ class RelationshipNode extends View{
   }
   
 }
-
-
-
-
