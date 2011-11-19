@@ -32,7 +32,7 @@ public int maxl, minl;
 color[] barsColor = {
   #C6E2FF, #FFC0CB, #EE799F, #87CEFA, #2E8B57, #BCEE68, #FFA54F, #CFCFCF, #AB82FF
 };
-
+// Committing
 PImage ppl;
 public int normalFontSize = 14;
 public int smallFontSize = 12 ;
